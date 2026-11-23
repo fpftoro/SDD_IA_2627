@@ -1,0 +1,653 @@
+{
+  "titulo": "Fundamentos del desarrollo guiado por especificaciones",
+  "oa": "OA1",
+  "semilla": 2026,
+  "bloques": [
+    {
+      "titulo": "Qué es el desarrollo guiado por especificaciones",
+      "criterios": "a",
+      "preguntas": [
+        {
+          "enunciado": "¿Qué significa que, sin especificación, el código se convierte en la *especificación de facto*?",
+          "correcta": "Que la única descripción de cómo funciona el sistema es lo que hace el código, con las decisiones que tomó el agente.",
+          "incorrectas": [
+            "Que el código generado por el agente siempre cumple los requisitos del cliente.",
+            "Que el agente escribe automáticamente un documento de especificación a partir del código.",
+            "Que el código sustituye al PRD como documento de negocio."
+          ],
+          "justificacion": "Sin spec, las decisiones implícitas del agente quedan en el código y nadie las ha revisado: el código pasa a ser la referencia."
+        },
+        {
+          "enunciado": "Ante un prompt vago, ¿qué hace normalmente un agente de codificación?",
+          "correcta": "Rellena los huecos con la opción más probable y la deja escrita en el código.",
+          "incorrectas": [
+            "Se detiene y pregunta por cada detalle que no está claro.",
+            "Genera solo el camino feliz y deja comentarios TODO en lo demás.",
+            "Rechaza la tarea hasta que reciba una especificación completa."
+          ],
+          "justificacion": "El agente no suele preguntar: supone. Por eso las decisiones que no están escritas acaban tomándolas él."
+        },
+        {
+          "enunciado": "¿Qué es el *vibe coding*?",
+          "correcta": "Ir pidiendo cambios al agente en lenguaje natural y aceptar lo que funciona, sin planificar ni revisar demasiado el código.",
+          "incorrectas": [
+            "Programar con el autocompletado de la IA mientras el desarrollador escribe el código.",
+            "Escribir primero los tests y después pedir al agente que los haga pasar.",
+            "Generar el código a partir de una spec aprobada, sin revisarlo."
+          ],
+          "justificacion": "Es el extremo menos estructurado del espectro: rápido y útil mientras el código no tenga que durar."
+        },
+        {
+          "enunciado": "¿Para cuál de estas situaciones es más adecuado el *vibe coding*?",
+          "correcta": "Un prototipo que se enseñará mañana y después se tirará.",
+          "incorrectas": [
+            "Una funcionalidad de pagos que va a producción.",
+            "Un módulo que mantendrán varias personas durante años.",
+            "Un cambio en un sistema con requisitos de auditoría."
+          ],
+          "justificacion": "El *vibe coding* sirve para explorar y prototipar; lo que tiene que durar o tiene consecuencias pide SDD."
+        },
+        {
+          "enunciado": "En el nivel *spec-first*, ¿cuál es la fuente de verdad?",
+          "correcta": "El código: la spec se usa como contexto antes de programar.",
+          "incorrectas": [
+            "La spec: el código se regenera a partir de ella.",
+            "La spec y el código, sincronizados por la integración continua.",
+            "El PRD, que gobierna tanto la spec como el código."
+          ],
+          "justificacion": "En *spec-first* la spec es contexto previo; después, lo que se mantiene es el código."
+        },
+        {
+          "enunciado": "¿Qué caracteriza al nivel *spec-anchored*?",
+          "correcta": "La spec gobierna el código durante toda su vida, con puntos de control y comprobaciones que detectan cuándo se separan.",
+          "incorrectas": [
+            "La spec se escribe antes de programar y después se archiva.",
+            "Solo se editan las specs; el código se genera siempre a partir de ellas.",
+            "No hay spec: el agente se guía por los tests."
+          ],
+          "justificacion": "En *spec-anchored* la spec es un contrato vivo, y la separación entre spec y código (*spec drift*) se detecta antes de integrar."
+        },
+        {
+          "enunciado": "¿En qué estado está, según el tema, el nivel *spec-as-source*?",
+          "correcta": "Es experimental: hay herramientas que exploran la idea, pero no es un enfoque habitual en proyectos reales.",
+          "incorrectas": [
+            "Es el nivel más extendido en la industria.",
+            "Es obligatorio en los proyectos con requisitos de auditoría.",
+            "Es el nivel en el que se trabaja durante todo el curso."
+          ],
+          "justificacion": "En *spec-as-source* el código se genera de la spec; es la idea más ambiciosa y todavía experimental."
+        },
+        {
+          "enunciado": "¿Qué propone la «inversión» que describe el documento de metodología de GitHub Spec Kit?",
+          "correcta": "Que el código sirva a la especificación, y no al revés: mantener el sistema es hacer evolucionar la spec.",
+          "incorrectas": [
+            "Que los tests se escriban después del código para no condicionar al agente.",
+            "Que la spec se deduzca del código ya escrito.",
+            "Que el agente decida la arquitectura y el humano escriba el código."
+          ],
+          "justificacion": "Tradicionalmente la spec es un andamio que se abandona; la inversión la convierte en la fuente de la que sale el código."
+        },
+        {
+          "enunciado": "¿Cuál de estos **no** es uno de los tres principios para trabajar con agentes del tema 1?",
+          "correcta": "Cambiar de herramienta cuando el agente no acierta.",
+          "incorrectas": [
+            "El humano en el bucle.",
+            "Reglas antes que herramientas.",
+            "Especificar antes de construir."
+          ],
+          "justificacion": "El principio es justo el contrario: invertir en reglas, specs y procedimientos antes que en cambiar de herramienta."
+        },
+        {
+          "enunciado": "¿Cómo sitúa el tema 1 el desarrollo guiado por especificaciones respecto a la ingeniería de contexto?",
+          "correcta": "SDD es ingeniería de contexto aplicada al desarrollo de software: la spec es la pieza de contexto más importante.",
+          "incorrectas": [
+            "Son enfoques opuestos: SDD prescinde del contexto y se basa solo en la spec.",
+            "La ingeniería de contexto es una parte de la ingeniería de prompts.",
+            "SDD sustituye a la ingeniería de contexto en los proyectos grandes."
+          ],
+          "justificacion": "La ingeniería de contexto se ocupa de todo lo que ve el agente; la spec es su pieza central en SDD."
+        }
+      ]
+    },
+    {
+      "titulo": "Artefactos y capas de contexto",
+      "criterios": "b",
+      "preguntas": [
+        {
+          "enunciado": "¿Cuál es la característica principal de un prompt frente a los demás artefactos?",
+          "correcta": "Es transitorio: existe en una conversación, no se versiona y no tiene estructura.",
+          "incorrectas": [
+            "Describe el comportamiento de una funcionalidad con requisitos verificables.",
+            "Recoge los principios innegociables del proyecto.",
+            "Describe los requisitos de todo el sistema de forma formal."
+          ],
+          "justificacion": "El prompt vive en la conversación; un prompt largo sigue siendo un prompt."
+        },
+        {
+          "enunciado": "¿Qué responde un PRD?",
+          "correcta": "Qué se va a construir y por qué, desde el punto de vista del negocio.",
+          "incorrectas": [
+            "Cómo se va a implementar cada funcionalidad.",
+            "Qué comandos debe ejecutar el agente para probar el proyecto.",
+            "Qué pasa en cada caso límite de una funcionalidad."
+          ],
+          "justificacion": "El PRD es un documento de producto: objetivo, problema, usuarios, casos de uso, métricas y fuera de alcance."
+        },
+        {
+          "enunciado": "¿En qué se diferencia una spec de SDD de un SRS tradicional?",
+          "correcta": "La spec describe una sola funcionalidad, en Markdown y versionada con el código; el SRS suele describir todo el sistema de forma formal.",
+          "incorrectas": [
+            "La spec no tiene requisitos no funcionales y el SRS sí.",
+            "El SRS se escribe para el agente y la spec para las personas.",
+            "La spec describe la arquitectura completa y el SRS una funcionalidad."
+          ],
+          "justificacion": "La spec toma la precisión del SRS y el porqué del PRD, calibrados para un agente y una funcionalidad."
+        },
+        {
+          "enunciado": "Un compañero escribe un prompt de tres párrafos con muchos detalles. ¿Es una spec?",
+          "correcta": "No: sigue siendo un prompt, porque le falta estructura, revisión y un lugar en el repositorio.",
+          "incorrectas": [
+            "Sí, porque tiene suficientes detalles para que el agente no suponga nada.",
+            "Sí, siempre que se guarde en el historial de la conversación.",
+            "Depende del modelo que lo vaya a leer."
+          ],
+          "justificacion": "La longitud no convierte un prompt en una spec."
+        },
+        {
+          "enunciado": "¿Qué es un *edge case*?",
+          "correcta": "Una situación en los extremos del funcionamiento normal: entradas inesperadas, condiciones raras o fallos externos.",
+          "incorrectas": [
+            "El caso de uso principal de una funcionalidad.",
+            "Un error de programación que el agente no sabe corregir.",
+            "Una funcionalidad que queda fuera de alcance."
+          ],
+          "justificacion": "Los *edge cases* complementan al camino feliz: qué pasa cuando algo se sale de lo normal."
+        },
+        {
+          "enunciado": "¿Por qué son especialmente importantes los *edge cases* cuando programa un agente?",
+          "correcta": "Porque el agente implementa por defecto el camino feliz y, si no están escritos, supone el resto.",
+          "incorrectas": [
+            "Porque el agente no sabe programar validaciones.",
+            "Porque los modelos no pueden leer las secciones de errores.",
+            "Porque solo los *edge cases* se convierten en tests."
+          ],
+          "justificacion": "Lo que no está en la spec lo decide el agente, normalmente con la opción más probable, no con la más robusta."
+        },
+        {
+          "enunciado": "¿Qué va en `AGENTS.md`?",
+          "correcta": "Reglas operativas de cómo trabaja el agente en el proyecto: comandos, estructura, convenciones y prohibiciones.",
+          "incorrectas": [
+            "La spec de la funcionalidad en la que se trabaja.",
+            "Los principios de negocio y su justificación para la dirección.",
+            "El historial de las sesiones con el agente."
+          ],
+          "justificacion": "`AGENTS.md` es la capa de reglas: se sigue sin interpretarla y vale para todas las tareas."
+        },
+        {
+          "enunciado": "«Los errores de la API devuelven `{ error: \"mensaje\" }` con el código HTTP adecuado.» ¿En qué capa de contexto encaja mejor?",
+          "correcta": "En la constitución: es un principio que deben respetar todas las funcionalidades.",
+          "incorrectas": [
+            "En la spec de la primera funcionalidad que tenga errores.",
+            "En un prompt, cada vez que se pida un endpoint.",
+            "En el PRD, porque afecta a los usuarios."
+          ],
+          "justificacion": "Una decisión de diseño que vale para todo el proyecto va en la constitución, no repetida en cada spec."
+        },
+        {
+          "enunciado": "Una línea que solo afecta a una funcionalidad concreta se escribe en `AGENTS.md`. ¿Qué problema causa?",
+          "correcta": "El agente la lee en todas las tareas, aunque no le sirva, y añade ruido a su contexto.",
+          "incorrectas": [
+            "Ninguno: cuanta más información tenga el agente, mejor.",
+            "El agente no la leerá, porque solo lee `AGENTS.md` al principio.",
+            "Invalida la constitución del proyecto."
+          ],
+          "justificacion": "Cada línea de los ficheros globales está en el contexto de todas las tareas: lo de una funcionalidad va en su spec."
+        },
+        {
+          "enunciado": "¿Qué primitiva es un procedimiento reutilizable que el agente carga solo cuando la tarea lo necesita?",
+          "correcta": "Una skill.",
+          "incorrectas": [
+            "Una instrucción (regla).",
+            "Una spec.",
+            "Un servidor MCP."
+          ],
+          "justificacion": "La regla se aplica siempre; la skill se carga cuando hace falta (por ejemplo, cómo publicar una versión)."
+        }
+      ]
+    },
+    {
+      "titulo": "El entorno de trabajo: OpenCode",
+      "criterios": "c",
+      "preguntas": [
+        {
+          "enunciado": "¿Qué diferencia hay entre el agente y el modelo?",
+          "correcta": "El modelo genera respuestas; el agente prepara el contexto, ejecuta herramientas (leer, editar, terminal) y repite el ciclo hasta terminar.",
+          "incorrectas": [
+            "Son lo mismo con dos nombres distintos.",
+            "El agente genera el texto y el modelo ejecuta los comandos.",
+            "El modelo se instala en el equipo y el agente está siempre en la nube."
+          ],
+          "justificacion": "OpenCode es el agente; se conecta a un proveedor de modelos para generar las respuestas."
+        },
+        {
+          "enunciado": "Al leer sobre agentes de codificación encuentras la palabra arnés (*harness*). ¿A qué se refiere?",
+          "correcta": "Al programa que rodea al modelo: decide qué contexto le llega, qué herramientas puede usar y qué se hace con sus respuestas.",
+          "incorrectas": [
+            "Al modelo de lenguaje que genera las respuestas.",
+            "Al conjunto de tests que comprueban el código que escribe el agente.",
+            "Al contexto que el agente envía al modelo en cada petición."
+          ],
+          "justificacion": "OpenCode es el arnés (*harness*) del modelo: prepara el contexto y ejecuta las herramientas que el modelo pide."
+        },
+        {
+          "enunciado": "¿Por qué se fija la versión de OpenCode en el Dev Container del curso?",
+          "correcta": "Para que todo el grupo tenga la misma herramienta y los enunciados funcionen igual para todos.",
+          "incorrectas": [
+            "Porque las versiones nuevas no admiten proveedores externos.",
+            "Porque la última versión siempre tiene errores.",
+            "Porque así no hace falta conectar ningún proveedor."
+          ],
+          "justificacion": "OpenCode cambia con frecuencia y los comandos pueden variar entre versiones."
+        },
+        {
+          "enunciado": "¿Para qué sirve el volumen de Docker `sdd-opencode` del Dev Container?",
+          "correcta": "Para conservar las credenciales y las sesiones de OpenCode aunque se borre el contenedor.",
+          "incorrectas": [
+            "Para guardar el código del proyecto fuera del repositorio.",
+            "Para compartir la clave del proveedor con el resto del grupo.",
+            "Para instalar los modelos locales."
+          ],
+          "justificacion": "Así se conecta el proveedor una sola vez para todas las prácticas, y las claves quedan fuera del proyecto."
+        },
+        {
+          "enunciado": "¿Con qué comando de OpenCode se conecta un proveedor de modelos?",
+          "correcta": "`/connect`",
+          "incorrectas": [
+            "`/init`",
+            "`/models`",
+            "`/new`"
+          ],
+          "justificacion": "`/connect` añade el proveedor; `/models` elige el modelo; `/init` genera `AGENTS.md`; `/new` abre una sesión nueva."
+        },
+        {
+          "enunciado": "Una clave de API ha acabado en un commit. ¿Qué hay que hacer?",
+          "correcta": "Cambiar la clave en el proveedor: borrar el commit no basta.",
+          "incorrectas": [
+            "Borrar el commit con `git reset` y seguir trabajando.",
+            "Añadir el fichero al `.gitignore`.",
+            "Nada, si el repositorio es privado."
+          ],
+          "justificacion": "Una clave que ha estado en el historial puede haberse copiado: hay que invalidarla."
+        },
+        {
+          "enunciado": "¿Qué tecla cambia entre los agentes *plan* y *build* en OpenCode?",
+          "correcta": "`Mayús+Tab`",
+          "incorrectas": [
+            "`Ctrl+P`",
+            "`Esc`",
+            "`Tab`"
+          ],
+          "justificacion": "`Mayús+Tab` alterna los agentes principales; `Ctrl+P` abre la lista de comandos y `Esc` interrumpe al agente."
+        },
+        {
+          "enunciado": "En la versión de OpenCode del curso, ¿qué puede hacer el agente *plan* con los ficheros del proyecto?",
+          "correcta": "Leerlos y analizarlos, pero no editarlos (solo puede guardar sus propios planes).",
+          "incorrectas": [
+            "Editarlos libremente, igual que *build*.",
+            "Editarlos después de pedir permiso en cada cambio.",
+            "Nada: *plan* no puede leer ficheros."
+          ],
+          "justificacion": "*Plan* tiene la edición denegada salvo en sus planes; *build* tiene todas las herramientas."
+        },
+        {
+          "enunciado": "¿Qué hace `/init` en un proyecto que ya tiene código?",
+          "correcta": "Analiza el repositorio y crea un borrador de `AGENTS.md` que hay que revisar.",
+          "incorrectas": [
+            "Crea la constitución del proyecto a partir del PRD.",
+            "Instala las dependencias del proyecto.",
+            "Configura los permisos del agente en `opencode.json`."
+          ],
+          "justificacion": "`/init` deduce las reglas del código, incluidas sus malas costumbres: su resultado es un borrador."
+        },
+        {
+          "enunciado": "¿Cómo se consigue que OpenCode cargue la constitución en todas las sesiones?",
+          "correcta": "Añadiéndola al campo `instructions` de `opencode.json`.",
+          "incorrectas": [
+            "Enlazándola desde `AGENTS.md`, porque OpenCode sigue los enlaces.",
+            "Pegándola al principio de cada prompt.",
+            "Guardándola en `~/.config/opencode/AGENTS.md`."
+          ],
+          "justificacion": "OpenCode lee `AGENTS.md` automáticamente, pero no sigue sus enlaces; `instructions` añade otros ficheros."
+        },
+        {
+          "enunciado": "Con esta configuración de `opencode.json`, ¿qué pasa si el agente intenta ejecutar `rm -r test`?\n\n    ```json\n    {\n      \"permissions\": [\n        { \"action\": \"shell\", \"resource\": \"*\", \"effect\": \"ask\" },\n        { \"action\": \"shell\", \"resource\": \"npm test\", \"effect\": \"allow\" },\n        { \"action\": \"shell\", \"resource\": \"rm *\", \"effect\": \"deny\" }\n      ]\n    }\n    ```",
+          "correcta": "Se rechaza sin preguntar, porque la última regla que coincide es `rm *` con `deny`.",
+          "incorrectas": [
+            "Pregunta antes de ejecutarlo, porque la primera regla, la de `*`, es `ask`.",
+            "Se ejecuta sin preguntar, porque no hay ninguna regla para `rm -r`.",
+            "Da un error de configuración, porque hay dos reglas que coinciden."
+          ],
+          "justificacion": "En OpenCode gana la última regla que coincide: primero la general y después las excepciones."
+        }
+      ]
+    },
+    {
+      "titulo": "Features: la unidad de trabajo de una spec",
+      "criterios": "d",
+      "preguntas": [
+        {
+          "enunciado": "¿Qué es una feature en SDD?",
+          "correcta": "Una capacidad concreta y delimitable del sistema, con valor propio, que se puede especificar, planificar y comprobar.",
+          "incorrectas": [
+            "Un objetivo de negocio grande que se divide en partes.",
+            "Un paso de implementación que toca uno o dos ficheros.",
+            "Una necesidad del usuario escrita con el formato «Como…, quiero…, para…»."
+          ],
+          "justificacion": "La feature es la unidad de trabajo de una spec: una spec por feature."
+        },
+        {
+          "enunciado": "¿En qué nivel de la jerarquía se escribe una spec?",
+          "correcta": "En el de la feature.",
+          "incorrectas": [
+            "En el del épico.",
+            "En el de la historia de usuario.",
+            "En el de la task."
+          ],
+          "justificacion": "El épico es demasiado amplio para una spec y la task demasiado pequeña: sale del plan."
+        },
+        {
+          "enunciado": "«Gestión de usuarios: registro, inicio de sesión, recuperar la contraseña y editar el perfil.» ¿Qué es?",
+          "correcta": "Un épico: hay que dividirlo en varias features.",
+          "incorrectas": [
+            "Una feature bien definida.",
+            "Una historia de usuario.",
+            "Una task."
+          ],
+          "justificacion": "Agrupa varias capacidades distintas, cada una con su propia spec."
+        },
+        {
+          "enunciado": "«Crear la tabla de reservas en la base de datos.» ¿Qué es y dónde va?",
+          "correcta": "Una task técnica sin valor propio: va en el plan de la primera feature que la necesite.",
+          "incorrectas": [
+            "Una feature, porque lleva trabajo.",
+            "Un épico de infraestructura con su propia spec.",
+            "Un requisito no funcional de todas las specs."
+          ],
+          "justificacion": "Las tareas técnicas no son features aunque lleven trabajo: aparecen en el plan."
+        },
+        {
+          "enunciado": "¿Dónde va una historia de usuario en SDD?",
+          "correcta": "En el contexto de la spec de su feature, para explicar el porqué.",
+          "incorrectas": [
+            "En un fichero aparte que sustituye a la spec.",
+            "En `AGENTS.md`, para que el agente la lea siempre.",
+            "En la lista de tasks del plan."
+          ],
+          "justificacion": "La historia explica quién necesita algo y para qué; no es la spec."
+        },
+        {
+          "enunciado": "¿Qué criterio de una buena feature es especialmente importante cuando el código lo genera un agente?",
+          "correcta": "Revisable: una persona tiene que poder revisar el código generado en un tiempo razonable.",
+          "incorrectas": [
+            "Que tenga un nombre corto.",
+            "Que la pueda implementar el agente sin ningún plan.",
+            "Que no tenga dependencias de ningún tipo."
+          ],
+          "justificacion": "Un agente puede cambiar treinta ficheros en minutos; si no se puede revisar, la feature es demasiado grande."
+        },
+        {
+          "enunciado": "¿Quién decide qué features tiene un proyecto?",
+          "correcta": "Una persona; el agente puede proponer una división, pero la decisión es humana.",
+          "incorrectas": [
+            "El agente, porque conoce mejor el código.",
+            "El agente *build*, al implementar la primera feature.",
+            "Nadie: salen automáticamente del PRD."
+          ],
+          "justificacion": "Las decisiones de los niveles altos (features, specs) son humanas; el agente trabaja en el plan, las tasks y el código."
+        },
+        {
+          "enunciado": "¿Cuándo **no** hace falta escribir una spec completa?",
+          "correcta": "Para una corrección pequeña y localizada o un cambio de configuración: basta un prompt cuidado.",
+          "incorrectas": [
+            "Cuando la feature tiene *edge cases* importantes.",
+            "Cuando van a trabajar en ella varias personas.",
+            "Cuando un error tendría consecuencias serias."
+          ],
+          "justificacion": "La spec compensa cuando hay lógica no trivial, casos límite, varias personas o riesgo alto."
+        },
+        {
+          "enunciado": "¿Con qué criterios se ordenan las features?",
+          "correcta": "Dependencias, valor y riesgo.",
+          "incorrectas": [
+            "Orden alfabético, tamaño y autor.",
+            "El orden en que aparecen en el PRD.",
+            "Fecha de creación de cada spec."
+          ],
+          "justificacion": "Primero lo que otras necesitan; a igualdad, lo que antes aporta valor; y conviene adelantar lo más incierto."
+        },
+        {
+          "enunciado": "¿Qué indica el prefijo de la carpeta de una feature (`B-reservar-carro/`)?",
+          "correcta": "El orden de implementación acordado.",
+          "incorrectas": [
+            "El orden en que se escribieron las specs.",
+            "La prioridad que le da el agente.",
+            "El número de versión de la spec."
+          ],
+          "justificacion": "El prefijo refleja el orden decidido, para que cualquiera sepa qué va primero."
+        }
+      ]
+    },
+    {
+      "titulo": "Anatomía de una spec",
+      "criterios": "e",
+      "preguntas": [
+        {
+          "enunciado": "¿Por qué una spec para un agente tiene que ser especialmente inequívoca?",
+          "correcta": "Porque el agente no pregunta: elige la interpretación más probable y la deja en el código.",
+          "incorrectas": [
+            "Porque los modelos no entienden el lenguaje natural.",
+            "Porque el agente solo lee la primera línea de cada requisito.",
+            "Porque las specs ambiguas no se pueden guardar en Markdown."
+          ],
+          "justificacion": "Entre personas, una ambigüedad se resuelve preguntando; un agente la resuelve suponiendo."
+        },
+        {
+          "enunciado": "¿Qué diferencia hay entre un requisito funcional y uno no funcional?",
+          "correcta": "El funcional dice qué hace el sistema; el no funcional, con qué calidad o restricciones lo hace.",
+          "incorrectas": [
+            "El funcional lo escribe el negocio y el no funcional el agente.",
+            "El funcional se comprueba con tests y el no funcional no se comprueba.",
+            "El no funcional describe lo que el sistema no hace."
+          ],
+          "justificacion": "«Genera un token» es funcional; «responde en menos de 10 ms» o «firma con RS256» son no funcionales."
+        },
+        {
+          "enunciado": "¿Cuál de estos requisitos no funcionales está bien escrito?",
+          "correcta": "El endpoint responderá en menos de 200 ms con 1.000 tareas guardadas.",
+          "incorrectas": [
+            "El sistema deberá ser rápido.",
+            "El sistema deberá ser seguro y robusto.",
+            "La respuesta deberá llegar en un tiempo razonable."
+          ],
+          "justificacion": "Un requisito no funcional tiene que ser medible o comprobable."
+        },
+        {
+          "enunciado": "«El sistema deberá validar el formulario, guardar el usuario y enviarle un correo de bienvenida.» ¿Qué problema tiene?",
+          "correcta": "Es un requisito compuesto: son tres requisitos, y el agente podría implementar dos y olvidar el tercero.",
+          "incorrectas": [
+            "Ninguno: está escrito con «deberá».",
+            "Es demasiado rígido porque menciona un correo.",
+            "Es un criterio de aceptación, no un requisito."
+          ],
+          "justificacion": "Los requisitos tienen que ser atómicos: una sola responsabilidad cada uno."
+        },
+        {
+          "enunciado": "¿Qué forma tienen los criterios de aceptación en el tema 5?",
+          "correcta": "Dado… cuando… entonces…",
+          "incorrectas": [
+            "Si… entonces… si no…",
+            "Como…, quiero…, para…",
+            "Requisito, prioridad, responsable."
+          ],
+          "justificacion": "*Dado* fija la situación, *cuando* la acción y *entonces* el resultado observable."
+        },
+        {
+          "enunciado": "¿Cuál de estos criterios de aceptación es binario?",
+          "correcta": "Dado un texto de 281 caracteres, cuando se crea la tarea, entonces el servidor responde 400.",
+          "incorrectas": [
+            "La pantalla de tareas debe ser intuitiva.",
+            "La creación de tareas funciona correctamente.",
+            "El usuario queda satisfecho al añadir una tarea."
+          ],
+          "justificacion": "Un criterio binario se cumple o no se cumple, y se puede convertir en un test."
+        },
+        {
+          "enunciado": "¿Para qué sirve la sección «Fuera de alcance»?",
+          "correcta": "Para que el agente no añada funcionalidades que parecen lógicas pero nadie ha pedido ni revisado.",
+          "incorrectas": [
+            "Para listar los errores que el sistema no gestiona.",
+            "Para anotar las features que se han descartado para siempre.",
+            "Para describir los requisitos de otras specs."
+          ],
+          "justificacion": "Cada línea cierra una puerta concreta; si es temporal, se dice dónde se tratará."
+        },
+        {
+          "enunciado": "¿Qué significa el marcador `[NECESITA ACLARACIÓN]` en una spec?",
+          "correcta": "Una decisión que todavía no se ha tomado; la spec no se puede aprobar mientras quede alguno.",
+          "incorrectas": [
+            "Una parte de la spec que el agente debe decidir por su cuenta.",
+            "Un requisito opcional que se puede implementar o no.",
+            "Un comentario que el agente debe ignorar."
+          ],
+          "justificacion": "Marca la duda donde afecta, para que se vea en la revisión en lugar de convertirse en una decisión silenciosa del agente."
+        },
+        {
+          "enunciado": "Durante la implementación se descubre un *edge case* que no estaba en la spec. ¿Qué se hace?",
+          "correcta": "Se añade a la spec en el mismo commit o PR que el código que lo trata.",
+          "incorrectas": [
+            "Se resuelve en el código y la spec se deja como estaba.",
+            "Se apunta en el PRD para la próxima versión.",
+            "Se escribe una spec nueva solo para ese caso."
+          ],
+          "justificacion": "La spec es un documento vivo: evoluciona con el código, en el mismo cambio."
+        },
+        {
+          "enunciado": "¿Por qué una spec desactualizada es peor que no tener spec?",
+          "correcta": "Porque le da al agente información falsa, que seguirá como si fuera cierta.",
+          "incorrectas": [
+            "Porque ocupa más espacio en el repositorio.",
+            "Porque el agente no puede leer specs antiguas.",
+            "Porque obliga a reescribir todo el código."
+          ],
+          "justificacion": "Una spec vieja engaña al agente y a las personas que la consultan."
+        }
+      ]
+    },
+    {
+      "titulo": "Notaciones y granularidad",
+      "criterios": "f",
+      "preguntas": [
+        {
+          "enunciado": "¿Qué obliga a escribir una notación estructurada como EARS?",
+          "correcta": "Condición y respuesta en cada requisito, siempre en el mismo sitio.",
+          "incorrectas": [
+            "Los nombres de las funciones que implementan cada requisito.",
+            "Los requisitos en inglés.",
+            "Un test automático por cada requisito."
+          ],
+          "justificacion": "La plantilla deja un hueco para la condición y otro para la respuesta: si no sabes rellenarlo, lo ves enseguida."
+        },
+        {
+          "enunciado": "«Cuando el usuario envíe el texto de una tarea nueva, el sistema deberá guardarla como pendiente.» ¿Qué patrón de EARS es?",
+          "correcta": "Por evento.",
+          "incorrectas": [
+            "Ubicuo.",
+            "Por estado.",
+            "Comportamiento no deseado."
+          ],
+          "justificacion": "*Cuando* reacciona a un evento puntual."
+        },
+        {
+          "enunciado": "«Mientras una tarea esté marcada como hecha, el sistema deberá mostrar su texto tachado.» ¿Qué patrón de EARS es?",
+          "correcta": "Por estado.",
+          "incorrectas": [
+            "Por evento.",
+            "Opcional.",
+            "Comportamiento no deseado."
+          ],
+          "justificacion": "*Mientras* se aplica durante todo el tiempo que dura un estado."
+        },
+        {
+          "enunciado": "¿Para qué se usa el patrón *Si… entonces…* de EARS?",
+          "correcta": "Para el comportamiento no deseado: errores, fallos y entradas no válidas.",
+          "incorrectas": [
+            "Para cualquier requisito con una condición.",
+            "Para los requisitos que dependen de una característica opcional.",
+            "Para los requisitos que se aplican siempre."
+          ],
+          "justificacion": "Usar *Si* para un evento normal es un error típico: eso es *Cuando*."
+        },
+        {
+          "enunciado": "¿En qué orden se escribe un requisito EARS que combina estado y evento?",
+          "correcta": "Primero el estado, después el evento y al final la respuesta: *Mientras…, cuando…, el sistema deberá…*",
+          "incorrectas": [
+            "Primero el evento y después el estado.",
+            "Primero la respuesta y después las condiciones.",
+            "Da igual el orden si están las dos condiciones."
+          ],
+          "justificacion": "El orden fijo hace que todos los requisitos combinados se lean igual."
+        },
+        {
+          "enunciado": "¿Cómo usa EARS la herramienta Kiro, según el tema 6?",
+          "correcta": "En los criterios de aceptación de las historias de usuario de `requirements.md`.",
+          "incorrectas": [
+            "En los nombres de los ficheros de código.",
+            "En el plan técnico de `design.md`.",
+            "En los mensajes de los commits."
+          ],
+          "justificacion": "Kiro escribe historias de usuario y, para cada una, criterios de aceptación con la forma de EARS."
+        },
+        {
+          "enunciado": "¿Qué línea hay que poner al principio de un fichero de Gherkin para usar las palabras clave en español?",
+          "correcta": "`# language: es`",
+          "incorrectas": [
+            "`@lang es`",
+            "`Idioma: español`",
+            "`# encoding: es`"
+          ],
+          "justificacion": "Con esa línea, Gherkin acepta *Característica*, *Escenario*, *Dado*, *Cuando*, *Entonces*…"
+        },
+        {
+          "enunciado": "¿Cuándo conviene un *Esquema del escenario* en Gherkin?",
+          "correcta": "Cuando varios casos siguen la misma forma y solo cambian los datos, que van en una tabla de *Ejemplos*.",
+          "incorrectas": [
+            "Cuando un escenario tiene más de tres pasos.",
+            "Cuando el escenario describe la interfaz paso a paso.",
+            "Cuando el criterio de aceptación todavía no está decidido."
+          ],
+          "justificacion": "Es ideal para los *edge cases* de validación: cada fila es un caso con su respuesta."
+        },
+        {
+          "enunciado": "¿Cuál de estos pasos de Gherkin es declarativo?",
+          "correcta": "Cuando el usuario añade la tarea \"Comprar leche\"",
+          "incorrectas": [
+            "Cuando hago clic en el botón azul de la derecha",
+            "Cuando escribo en el campo con id \"texto-tarea\" y pulso Intro",
+            "Cuando espero dos segundos a que cargue la página"
+          ],
+          "justificacion": "Un paso declarativo describe el comportamiento, no cómo está hecha la interfaz."
+        },
+        {
+          "enunciado": "¿Cuándo es una spec demasiado rígida?",
+          "correcta": "Cuando dicta la implementación: nombres de funciones, código o estructuras internas.",
+          "incorrectas": [
+            "Cuando tiene muchos *edge cases*.",
+            "Cuando fija el código HTTP y el mensaje de cada error.",
+            "Cuando indica la ruta de la API."
+          ],
+          "justificacion": "Lo técnico que se ve desde fuera (rutas, códigos, formatos) sí va en la spec; el cómo se programa va en el plan."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400" role="img" aria-labelledby="t d">
+  <title id="t">UD1 · Fundamentos del desarrollo guiado por especificaciones</title>
+  <desc id="d">Portada de la unidad 1 del curso Desarrollo guiado por especificaciones con IA: una especificación con requisitos, edge cases y fuera de alcance pasa como contrato a un agente de codificación, que devuelve el plan, las tareas y los tests en verde.</desc>
+  <defs>
+    <linearGradient id="fondo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d2b2f"/>
+      <stop offset="1" stop-color="#16213e"/>
+    </linearGradient>
+    <linearGradient id="acento" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2ee6a6"/>
+      <stop offset="1" stop-color="#4cc9f0"/>
+    </linearGradient>
+    <marker id="flecha" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#2ee6a6"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="400" fill="url(#fondo)"/>
+  <!-- Retícula decorativa -->
+  <g stroke="#ffffff" stroke-opacity="0.05">
+    <path d="M0 50H1200M0 100H1200M0 150H1200M0 200H1200M0 250H1200M0 300H1200M0 350H1200"/>
+    <path d="M100 0V400M200 0V400M300 0V400M400 0V400M500 0V400M600 0V400M700 0V400M800 0V400M900 0V400M1000 0V400M1100 0V400"/>
+  </g>
+
+  <!-- Texto -->
+  <g font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+    <text x="60" y="80" fill="#b9dcd8" font-size="20" letter-spacing="3">DESARROLLO GUIADO POR ESPECIFICACIONES CON IA</text>
+    <rect x="60" y="100" width="120" height="6" rx="3" fill="url(#acento)"/>
+    <text x="60" y="185" fill="#ffffff" font-size="64" font-weight="700">UD1</text>
+    <text x="60" y="240" fill="#ffffff" font-size="34" font-weight="600">Fundamentos del desarrollo</text>
+    <text x="60" y="282" fill="#ffffff" font-size="34" font-weight="600">guiado por especificaciones</text>
+    <text x="60" y="340" fill="#2ee6a6" font-size="22" font-weight="600">OA1 · Especificar antes de construir</text>
+  </g>
+
+  <!-- Especificación -->
+  <g transform="translate(600,110)">
+    <rect width="250" height="250" rx="12" fill="#ffffff" fill-opacity="0.08" stroke="#b9dcd8" stroke-width="2"/>
+    <rect width="250" height="34" rx="12" fill="#ffffff" fill-opacity="0.12"/>
+    <text x="125" y="22" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#b9dcd8">spec.md</text>
+    <g font-family="Consolas, 'Courier New', monospace" font-size="14" xml:space="preserve">
+      <text x="18" y="64" fill="#4cc9f0" font-weight="700"># Añadir una tarea</text>
+      <text x="18" y="94" fill="#2ee6a6">## Requisitos</text>
+      <text x="18" y="116" fill="#ffffff">- RF-01 id único</text>
+      <text x="18" y="138" fill="#ffffff">- RNF-01 máx. 280</text>
+      <text x="18" y="166" fill="#2ee6a6">## Edge cases</text>
+      <text x="18" y="188" fill="#ffffff">- EC-01 vacío → 400</text>
+      <text x="18" y="216" fill="#2ee6a6">## Fuera de alcance</text>
+      <text x="18" y="238" fill="#8fa3b0">- prioridades</text>
+    </g>
+  </g>
+
+  <!-- Contrato: de la spec al agente -->
+  <path d="M858 235 C 880 235, 880 235, 905 235" fill="none" stroke="#2ee6a6" stroke-width="3" marker-end="url(#flecha)"/>
+  <text x="880" y="222" text-anchor="middle" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" fill="#2ee6a6">contrato</text>
+
+  <!-- Agente en el terminal -->
+  <g transform="translate(915,110)">
+    <rect width="245" height="250" rx="12" fill="#000000" fill-opacity="0.35" stroke="#4cc9f0" stroke-width="2"/>
+    <rect width="245" height="34" rx="12" fill="#ffffff" fill-opacity="0.12"/>
+    <circle cx="20" cy="17" r="6" fill="#ff5f57"/>
+    <circle cx="40" cy="17" r="6" fill="#febc2e"/>
+    <circle cx="60" cy="17" r="6" fill="#28c840"/>
+    <text x="150" y="22" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#b9dcd8">agente</text>
+    <g font-family="Consolas, 'Courier New', monospace" font-size="14" xml:space="preserve">
+      <text x="16" y="66"><tspan fill="#4cc9f0">&gt;</tspan><tspan fill="#ffffff"> lee spec.md</tspan></text>
+      <text x="16" y="96" fill="#2ee6a6">✓ plan</text>
+      <text x="16" y="122" fill="#2ee6a6">✓ 4 tasks</text>
+      <text x="16" y="148" fill="#2ee6a6">✓ código</text>
+      <text x="16" y="174" fill="#2ee6a6">✓ tests en verde</text>
+      <text x="16" y="212"><tspan fill="#febc2e">?</tspan><tspan fill="#ffffff"> revisión humana</tspan></text>
+      <rect x="16" y="226" width="9" height="16" fill="#ffffff" fill-opacity="0.7"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,54 @@
+# Historial y ramas del repositorio del equipo
+
+Tu repositorio solo tiene `main`. El del equipo tiene además dos ramas.
+Esta es la salida de unos comandos ejecutados en él, en `main`.
+
+$ git log --graph --oneline --all
+
+* 0a57700 (HEAD -> main) Spec de la feature F (en revisión)
+* cff8d8f Spec de la feature E: versión nueva en spec-v2.md (aprobada)
+* 73a1b34 Spec de la feature E (borrador)
+* ad8be90 Spec de la feature D (en revisión)
+* e1aa8d5 Actualiza el índice de features
+*   944363c Fusiona la feature C: registrar el préstamo
+|\
+| * e010ab8 (feature/C-registrar-prestamo) Feature C: T-03 y T-04, API de préstamos
+| * 6de47f2 Feature C: T-01 y T-02, servicio de préstamos
+| * 74674f2 Tasks de la feature C (aprobadas)
+| * 29c1705 Plan de la feature C (aprobado)
+|/
+* 316ec3a Spec de la feature C (aprobada)
+| * f3ce234 (feature/B-reservar-carro) Feature B: T-03 y T-04, servicio de reservas
+| * 2975d1f Feature B: T-01 y T-02, reloj con la hora peninsular
+| * 25f48bb Tasks de la feature B (aprobadas)
+| * af362db Plan de la feature B (aprobado)
+|/
+* f4e9932 Spec de la feature B (aprobada)
+* 43b7a2e Middleware de identificación del sistema del centro
+*   89fbe4e Fusiona la feature A: consultar los portátiles
+|\
+| * 7cebd27 Feature A: T-03 y T-04, API de portátiles (implementada)
+| * 8f1e814 Feature A: T-01 y T-02, servicio de portátiles
+|/
+* 76c8031 Proyecto de partida
+
+$ git branch --merged main
+
+  feature/C-registrar-prestamo
+* main
+
+$ git branch --no-merged main
+
+  feature/B-reservar-carro
+
+$ git show feature/B-reservar-carro:docs/specs/B-reservar-carro/spec.md | grep "^| Estado"
+
+| Estado  | En implementación |
+
+$ git show feature/B-reservar-carro:docs/specs/B-reservar-carro/tasks.md | grep -c "\[x\]"
+
+4
+
+$ git show feature/B-reservar-carro:docs/specs/B-reservar-carro/tasks.md | grep -c "\[ \]"
+
+2

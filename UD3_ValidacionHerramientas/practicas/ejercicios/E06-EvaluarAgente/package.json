@@ -1,0 +1,22 @@
+{
+  "name": "prestamo-portatiles",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/servidor.js",
+    "test": "vitest run",
+    "lint": "eslint .",
+    "estado": "sh herramientas/estado-features.sh"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.14.0",
+    "globals": "^17.13.0",
+    "supertest": "^7.1.4",
+    "vitest": "^5.0.3"
+  }
+}

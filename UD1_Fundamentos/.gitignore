@@ -1,0 +1,8 @@
+# Dependencias y resultados de compilación de las soluciones
+node_modules/
+dist/
+coverage/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db

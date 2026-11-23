@@ -1,0 +1,16 @@
+{
+  "name": "SDD con OpenCode y Playwright",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:24",
+  "runArgs": ["--security-opt", "label=disable"],
+  "remoteUser": "node",
+  "mounts": [
+    "source=sdd-opencode,target=/home/node/.local/share/opencode,type=volume"
+  ],
+  "postCreateCommand": "sudo chown node:node /home/node/.local/share/opencode && npm install -g @opencode/cli@2.3.2 && npm install",
+  "forwardPorts": [3000],
+  "customizations": {
+    "vscode": {
+      "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
+    }
+  }
+}

@@ -1,0 +1,567 @@
+{
+  "titulo": "Validación, pruebas y herramientas",
+  "oa": "OA3",
+  "semilla": 2026,
+  "bloques": [
+    {
+      "titulo": "Validación y spec drift",
+      "criterios": "a, d",
+      "preguntas": [
+        {
+          "enunciado": "¿Por qué no basta con que los tests estén en verde para dar por buena una feature que implementó un agente?",
+          "correcta": "Porque si el mismo agente escribió el código y los tests, los tests pueden comprobar lo que hace el código y no lo que dice la spec.",
+          "incorrectas": [
+            "Porque los tests de un agente nunca se ejecutan en la integración continua.",
+            "Porque los agentes escriben siempre menos tests de los necesarios.",
+            "Porque un test en verde solo indica que el código compila."
+          ],
+          "justificacion": "Código y tests salen de la misma interpretación: estar de acuerdo entre sí no significa cumplir la spec."
+        },
+        {
+          "enunciado": "¿Qué es el *spec drift*?",
+          "correcta": "La separación progresiva entre lo que dice la spec y lo que hace el código.",
+          "incorrectas": [
+            "El cambio de versión de la spec cuando se aprueba.",
+            "La diferencia entre el plan técnico y las tasks.",
+            "El tiempo que pasa entre aprobar una spec y fusionar su feature."
+          ],
+          "justificacion": "Empieza con una diferencia pequeña y crece con cada cambio que se hace en un lado y no en el otro."
+        },
+        {
+          "enunciado": "¿Por qué el *spec drift* es más grave cuando se trabaja con un agente?",
+          "correcta": "Porque el agente toma la spec como verdad y genera código coherente con ella e incoherente con los cambios hechos fuera.",
+          "incorrectas": [
+            "Porque el agente borra la spec cuando detecta diferencias con el código.",
+            "Porque el agente actualiza la spec sin avisar.",
+            "Porque los agentes no pueden leer specs con versiones."
+          ],
+          "justificacion": "El error reaparece en cada feature que lee la spec, con formas distintas: el drift se realimenta."
+        },
+        {
+          "enunciado": "Un compañero sube el límite del texto a 500 caracteres en el código y ajusta el test, sin tocar la spec. ¿Qué forma de *drift* es?",
+          "correcta": "Un cambio que no llega a la spec.",
+          "incorrectas": [
+            "Interpretación del agente.",
+            "Regeneración.",
+            "Arquitectura."
+          ],
+          "justificacion": "La decisión se tomó fuera del flujo y la spec sigue diciendo otra cosa."
+        },
+        {
+          "enunciado": "¿Qué compara cada fila de una matriz de trazabilidad?",
+          "correcta": "Un identificador de la spec con el test que lo comprueba y si ese test comprueba de verdad lo que dice.",
+          "incorrectas": [
+            "Un fichero de código con el commit que lo creó.",
+            "Una task con la persona que la implementó.",
+            "Un requisito con el coste de implementarlo."
+          ],
+          "justificacion": "La tercera columna es la importante: un test puede existir, llevar el identificador y no comprobar lo que el identificador dice."
+        },
+        {
+          "enunciado": "¿Qué demuestra que un test sirve, según el tema?",
+          "correcta": "Que falla cuando se rompe a propósito el código que dice comprobar.",
+          "incorrectas": [
+            "Que tiene el identificador de la spec en el nombre.",
+            "Que se ejecuta en menos de un segundo.",
+            "Que lo escribió un agente distinto del que escribió el código."
+          ],
+          "justificacion": "Es la idea de las pruebas de mutación: si rompes el código y el test sigue en verde, no protege nada."
+        },
+        {
+          "enunciado": "¿Por qué el subagente revisor tiene denegada la acción `subagent`?",
+          "correcta": "Porque podría encargar el trabajo al subagente `general`, que sí puede editar ficheros.",
+          "incorrectas": [
+            "Porque así trabaja más deprisa.",
+            "Porque `subagent` sirve para ejecutar los tests.",
+            "Porque los subagentes no pueden tener permisos propios."
+          ],
+          "justificacion": "Un agente de solo lectura que puede pedir a otro que escriba no es de solo lectura."
+        },
+        {
+          "enunciado": "El revisor informa de un hallazgo que la spec no menciona («el servicio debería usar una librería de validación»). ¿Qué haces?",
+          "correcta": "Lo rechazo: es una preferencia de implementación que no pide ni la spec ni la constitución.",
+          "incorrectas": [
+            "Lo acepto: el revisor es otro agente y no está sesgado.",
+            "Cambio la spec para incluir la librería.",
+            "Lo implemento sin cambiar la spec, porque mejora el código."
+          ],
+          "justificacion": "Los hallazgos son propuestas: se reproducen y se contrastan con la spec antes de aceptarlos."
+        },
+        {
+          "enunciado": "¿Qué comprobación automática detecta que un controlador importa un repositorio?",
+          "correcta": "Una búsqueda en el código o una regla de linter como `no-restricted-imports`.",
+          "incorrectas": [
+            "Los tests de aceptación de la API.",
+            "La cobertura de código.",
+            "La búsqueda de identificadores sin test."
+          ],
+          "justificacion": "Los tests de aceptación no ven la estructura: un controlador que se salta el servicio responde igual."
+        },
+        {
+          "enunciado": "¿Qué no comprueba ninguna de las validaciones automáticas del tema?",
+          "correcta": "Que la spec describe lo que el usuario necesita y que el código será fácil de cambiar.",
+          "incorrectas": [
+            "Que los tests se ejecutan.",
+            "Que hay un test por identificador.",
+            "Que las capas de la constitución se respetan."
+          ],
+          "justificacion": "Todo lo automático compara el código con la spec o con reglas escritas; la necesidad y la mantenibilidad siguen siendo juicio humano."
+        }
+      ]
+    },
+    {
+      "titulo": "Pruebas desde la spec",
+      "criterios": "b",
+      "preguntas": [
+        {
+          "enunciado": "¿En qué se diferencian las pruebas desde la spec del TDD clásico?",
+          "correcta": "Las pruebas desde la spec derivan todos los tests de los criterios y edge cases de una spec aprobada y se revisan antes de implementar; TDD avanza test a test para diseñar el código.",
+          "incorrectas": [
+            "Son lo mismo con otro nombre.",
+            "En las pruebas desde la spec los tests se escriben después del código.",
+            "TDD solo sirve para tests de extremo a extremo."
+          ],
+          "justificacion": "Comparten la idea de que el test va primero, pero tienen objetivos y tamaños de paso distintos."
+        },
+        {
+          "enunciado": "Un escenario de Gherkin se traduce en un test así:",
+          "correcta": "Dado → preparar los datos; Cuando → hacer la acción; Entonces → comprobar el resultado.",
+          "incorrectas": [
+            "Dado → comprobar; Cuando → preparar; Entonces → actuar.",
+            "Cada paso del escenario es un test distinto.",
+            "Solo el Entonces se convierte en código."
+          ],
+          "justificacion": "Las tres partes del escenario son las tres partes de cualquier test."
+        },
+        {
+          "enunciado": "Para el orden de una lista se prueba con las tareas «Tarea 1», «Tarea 2» y «Tarea 3». ¿Qué problema tiene?",
+          "correcta": "El orden alfabético y el de creación coinciden, así que un código que ordenara por texto pasaría el test.",
+          "incorrectas": [
+            "Ninguno: son tres tareas y la spec pide al menos tres.",
+            "Los textos son demasiado cortos para el límite de 280.",
+            "Los números en los textos hacen fallar el test."
+          ],
+          "justificacion": "Los datos tienen que distinguir la implementación correcta de las incorrectas razonables."
+        },
+        {
+          "enunciado": "¿Qué nivel de prueba corresponde a «la página muestra el mensaje “Todavía no hay tareas” cuando la lista está vacía»?",
+          "correcta": "Extremo a extremo (e2e), porque el comportamiento se ve en la página.",
+          "incorrectas": [
+            "Unitario, porque es un texto fijo.",
+            "Integración con supertest, porque depende de GET /tareas.",
+            "Ninguno: los mensajes de la página se comprueban a mano."
+          ],
+          "justificacion": "El nivel lo decide el sitio donde se ve lo que decide la spec."
+        },
+        {
+          "enunciado": "¿Por qué se separan `npm test` y `npm run e2e`?",
+          "correcta": "Porque las pruebas e2e necesitan un navegador y un servidor y tardan más; así `npm test` sigue siendo inmediato.",
+          "incorrectas": [
+            "Porque las pruebas e2e son opcionales.",
+            "Porque Vitest no puede ejecutar JavaScript.",
+            "Porque Playwright solo funciona en la integración continua."
+          ],
+          "justificacion": "Separadas no significa opcionales: la CI ejecuta las dos y no se fusiona con ninguna en rojo."
+        },
+        {
+          "enunciado": "En Playwright, ¿por qué se recomienda localizar el botón con `getByRole('button', { name: 'Añadir' })`?",
+          "correcta": "Porque busca como lo haría una persona, sobrevive a cambios internos de la página y comprueba de paso que es accesible.",
+          "incorrectas": [
+            "Porque es la única forma de localizar botones.",
+            "Porque es más rápido que buscar por id.",
+            "Porque no necesita que la página esté cargada."
+          ],
+          "justificacion": "Los localizadores por papel y texto describen lo que hace el usuario, no la estructura del HTML."
+        },
+        {
+          "enunciado": "Un test termina así: `request(app).get('/tareas').then((r) => { expect(r.status).toBe(418); });`, sin `await` ni `return`. ¿Qué pasa?",
+          "correcta": "El test acaba antes de la respuesta y Vitest lo da por superado; el fallo, si aparece, sale aparte.",
+          "incorrectas": [
+            "Vitest espera siempre las promesas y el test falla.",
+            "Supertest lanza un error de sintaxis.",
+            "El test se marca como omitido."
+          ],
+          "justificacion": "Es una aserción que no se ejecuta dentro del test: una forma de test que miente."
+        },
+        {
+          "enunciado": "¿Por qué el agente que implementa no debe poder editar los tests?",
+          "correcta": "Porque tendría a la vez el objetivo (que pasen) y la vara de medir, y podría cambiar el test en lugar del código.",
+          "incorrectas": [
+            "Porque los tests los ejecuta la integración continua.",
+            "Porque editar tests consume más contexto.",
+            "Porque los tests solo los puede leer el revisor."
+          ],
+          "justificacion": "Pedírselo en el prompt no basta: los permisos hacen que no pueda."
+        },
+        {
+          "enunciado": "Además de denegar `tests/**` en `edit`, ¿qué más hay que limitar al agente `implementador`?",
+          "correcta": "La terminal (`shell` en `ask` salvo órdenes concretas) y `subagent`, porque con ellas podría cambiar los tests por otra vía.",
+          "incorrectas": [
+            "Nada más: `edit` cubre cualquier forma de escribir ficheros.",
+            "El permiso de leer los tests.",
+            "El acceso a `npm test`."
+          ],
+          "justificacion": "Con `sed -i` en la terminal o pidiéndoselo a otro agente, el permiso de `edit` no protege."
+        },
+        {
+          "enunciado": "Un test revisado y aprobado resulta estar mal. ¿Qué se hace?",
+          "correcta": "Lo corrige una persona en un commit propio que explica el motivo; el agente que implementa no lo toca.",
+          "incorrectas": [
+            "El agente lo corrige en el mismo commit que el código.",
+            "Se desactiva con `skip` hasta la siguiente feature.",
+            "Se borra, porque ya no es fiable."
+          ],
+          "justificacion": "La regla no es «los tests nunca cambian», sino «no los cambia quien implementa»."
+        }
+      ]
+    },
+    {
+      "titulo": "Quality gates e integración continua",
+      "criterios": "c, g",
+      "preguntas": [
+        {
+          "enunciado": "¿Qué diferencia un *quality gate* de un punto de control?",
+          "correcta": "El gate lo comprueba un programa con criterios objetivos en cada cambio y bloquea; el punto de control lo pasa una persona con su juicio.",
+          "incorrectas": [
+            "Son lo mismo con otro nombre.",
+            "El punto de control se automatiza y el gate no.",
+            "El gate solo existe en la fase de especificar."
+          ],
+          "justificacion": "Se complementan: el gate quita a la persona el trabajo mecánico."
+        },
+        {
+          "enunciado": "¿Qué mide la cobertura de código?",
+          "correcta": "Qué parte del código se ejecuta durante los tests.",
+          "incorrectas": [
+            "Qué parte del código comprueban los tests.",
+            "Cuántos criterios de la spec tienen test.",
+            "Cuántos tests hay por fichero."
+          ],
+          "justificacion": "Código ejecutado no es código comprobado: un test sin aserciones da cobertura."
+        },
+        {
+          "enunciado": "Un proyecto tiene un 100 % de cobertura. ¿Qué se puede afirmar?",
+          "correcta": "Que los tests ejecutan todo el código, pero no que comprueben la spec.",
+          "incorrectas": [
+            "Que cumple la spec.",
+            "Que no tiene errores.",
+            "Que todos los identificadores de la spec tienen test."
+          ],
+          "justificacion": "La cobertura de la spec la da la trazabilidad, y la calidad de los tests, su revisión."
+        },
+        {
+          "enunciado": "¿Por qué un umbral de cobertura del 100 % no suele ser buena idea?",
+          "correcta": "Porque lleva a escribir tests sin valor para cubrir la última línea y bloquea código difícil de probar.",
+          "incorrectas": [
+            "Porque Vitest no permite umbrales tan altos.",
+            "Porque la cobertura nunca llega al 100 %.",
+            "Porque el umbral lo decide cada feature."
+          ],
+          "justificacion": "Un umbral es un buen suelo y un mal objetivo."
+        },
+        {
+          "enunciado": "¿Qué hace el gate de trazabilidad del tema?",
+          "correcta": "Comprueba que cada identificador de las specs en implementación o implementadas tiene un test, y avisa de los que el plan comprueba a mano.",
+          "incorrectas": [
+            "Comprueba que cada test tiene una aserción.",
+            "Comprueba que cada commit cita una spec.",
+            "Comprueba que la spec y el índice tienen el mismo estado."
+          ],
+          "justificacion": "Es la búsqueda de identificadores sin test, automatizada; mira nombres, no lo que comprueba el test."
+        },
+        {
+          "enunciado": "¿Qué comprueba el gate de «spec existente»?",
+          "correcta": "Que una rama que cambia el código cambia también algún documento de una feature.",
+          "incorrectas": [
+            "Que todas las features del índice tienen spec.",
+            "Que la spec está aprobada antes de planificar.",
+            "Que la spec no tiene marcadores de duda."
+          ],
+          "justificacion": "Es un gate estructural contra el drift por cambios que no llegan a la spec."
+        },
+        {
+          "enunciado": "El gate de tests modificados encuentra un commit que cambia líneas de un test existente y también `src/`. ¿Qué hace?",
+          "correcta": "Falla: no se sabe si el test se ajustó al código.",
+          "incorrectas": [
+            "Avisa, pero deja pasar el cambio.",
+            "Nada: cambiar tests es normal en un ciclo.",
+            "Revierte el commit automáticamente."
+          ],
+          "justificacion": "Si el commit solo cambia tests, es un aviso que lee una persona; si mezcla tests existentes y código, es un error."
+        },
+        {
+          "enunciado": "En GitHub Actions, ¿por qué el job que compara la rama con `main` necesita `fetch-depth: 0`?",
+          "correcta": "Porque por defecto se descarga solo el último commit, sin historial ni otras ramas.",
+          "incorrectas": [
+            "Porque así el job tarda menos.",
+            "Porque sin él no se puede ejecutar `npm ci`.",
+            "Porque es obligatorio en todos los workflows."
+          ],
+          "justificacion": "Sin el historial, no hay `origin/main` con el que comparar."
+        },
+        {
+          "enunciado": "¿Para qué sirve `if: ${{ !cancelled() }}` en un paso de un workflow?",
+          "correcta": "Para que el paso se ejecute aunque haya fallado el anterior, y un fallo no esconda otro.",
+          "incorrectas": [
+            "Para que el paso solo se ejecute en `main`.",
+            "Para cancelar el workflow si falla el paso.",
+            "Para ejecutar el paso en paralelo con los demás."
+          ],
+          "justificacion": "Por defecto, GitHub no ejecuta los pasos que siguen a uno que ha fallado."
+        },
+        {
+          "enunciado": "Las pruebas de Playwright pasan en tu Dev Container y fallan en la CI con «Executable doesn't exist». ¿Qué falta?",
+          "correcta": "Instalar los navegadores en el runner con `npx playwright install --with-deps chromium`.",
+          "incorrectas": [
+            "Arrancar el servidor a mano antes de las pruebas.",
+            "Añadir `@playwright/test` a las dependencias de producción.",
+            "Usar `npm install` en lugar de `npm ci`."
+          ],
+          "justificacion": "Cada job empieza en una máquina limpia: lo que tu equipo tiene y el repositorio no dice, no está."
+        },
+        {
+          "enunciado": "Un cambio en `AGENTS.md` funciona bien en la primera sesión en la que lo pruebas. ¿Qué se puede concluir?",
+          "correcta": "Nada todavía: un intento puede salir bien por suerte, así que hay que repetir los casos de la batería y comparar con la configuración anterior.",
+          "incorrectas": [
+            "Que el cambio funciona, porque el agente siguió la instrucción.",
+            "Que el cambio funciona en el 100 % de los casos parecidos.",
+            "Que el cambio solo falla si se cambia de modelo."
+          ],
+          "justificacion": "El agente no responde siempre igual: un intento es una muestra, no una prueba."
+        },
+        {
+          "enunciado": "En un intento, el agente deja los tests en verde, pero para conseguirlo ha editado un test que no podía tocar. ¿Cómo se puntúa?",
+          "correcta": "Resultado bien y límites mal, por separado: es un intento afortunado que una nota global escondería.",
+          "incorrectas": [
+            "Como un éxito, porque los tests están en verde.",
+            "Con la media de las dos cosas, un 5 sobre 10.",
+            "No se puntúa: hay que repetirlo hasta que salga bien."
+          ],
+          "justificacion": "Si el código funciona después de una acción prohibida, el intento falla en límites."
+        },
+        {
+          "enunciado": "¿Para qué sirve el caso reservado de una batería?",
+          "correcta": "Para detectar si el cambio en el arnés (*harness*) empeora un caso que no se ha mirado mientras se ajustaba la configuración.",
+          "incorrectas": [
+            "Para repetirlo cuando un intento falla.",
+            "Para enseñárselo al agente como ejemplo de lo que se espera.",
+            "Para sustituir a los tests del proyecto."
+          ],
+          "justificacion": "La configuración acaba encajando con los casos que se miran; el reservado se ejecuta al final, con las dos configuraciones."
+        }
+      ]
+    },
+    {
+      "titulo": "El ecosistema de herramientas",
+      "criterios": "e",
+      "preguntas": [
+        {
+          "enunciado": "¿Por qué el tema propone estudiar el ecosistema por papeles y no con una lista de las mejores herramientas?",
+          "correcta": "Porque las herramientas cambian deprisa y los papeles permiten colocar cualquier herramienta nueva.",
+          "incorrectas": [
+            "Porque todas las herramientas hacen lo mismo.",
+            "Porque las listas de herramientas están prohibidas en los temas.",
+            "Porque solo existe una herramienta por papel."
+          ],
+          "justificacion": "Un ranking caduca en meses; el mapa por papeles y los criterios, no."
+        },
+        {
+          "enunciado": "¿Qué pieza está en el centro del mapa del ecosistema?",
+          "correcta": "El repositorio, con las specs, el código, los tests y la memoria del agente.",
+          "incorrectas": [
+            "El modelo de lenguaje.",
+            "El editor.",
+            "El framework de SDD."
+          ],
+          "justificacion": "Si lo importante está en el repositorio y en formatos abiertos, se puede cambiar cualquier otra pieza."
+        },
+        {
+          "enunciado": "¿Qué idea central distingue a OpenSpec?",
+          "correcta": "Separa las specs vigentes de los cambios en curso, que se escriben como diferencias y se aplican al archivar.",
+          "incorrectas": [
+            "Genera el código directamente desde la spec sin agente.",
+            "Organiza el trabajo en tracks con su plan.",
+            "Es un editor con el flujo de SDD integrado."
+          ],
+          "justificacion": "Por eso encaja en código existente, donde casi todo el trabajo son cambios."
+        },
+        {
+          "enunciado": "¿Qué tienen en común Spec Kit, OpenSpec, Conductor y Kiro?",
+          "correcta": "Guardan el contexto del proyecto, la spec y el plan en ficheros Markdown dentro del repositorio.",
+          "incorrectas": [
+            "Funcionan solo con un proveedor de modelos.",
+            "Son todos de código abierto.",
+            "Todos generan pruebas automáticamente."
+          ],
+          "justificacion": "Cambian los nombres; el método es el mismo que el del curso."
+        },
+        {
+          "enunciado": "Con un agente que trabaja solo en la nube hasta abrir una pull request, ¿qué cambia para SDD?",
+          "correcta": "No hay puntos de control intermedios, así que la spec, los tests y los gates tienen que estar listos antes.",
+          "incorrectas": [
+            "Nada: el agente sigue los mismos puntos de control.",
+            "Ya no hacen falta specs, porque el agente revisa su trabajo.",
+            "Los tests los escribe siempre el agente después."
+          ],
+          "justificacion": "Cuanto menos supervisas el proceso, más tiene que estar decidido por escrito antes."
+        },
+        {
+          "enunciado": "¿Qué consecuencia tiene que el agente no sea el modelo?",
+          "correcta": "Un agente multiproveedor permite cambiar de modelo, comparar varios con la misma spec o usar uno local por privacidad.",
+          "incorrectas": [
+            "Que el agente no necesita un modelo para funcionar.",
+            "Que todos los agentes funcionan con todos los modelos.",
+            "Que el modelo decide qué permisos tiene el agente."
+          ],
+          "justificacion": "El agente organiza el trabajo; el razonamiento lo pone un modelo al que llama por una API."
+        },
+        {
+          "enunciado": "¿Por qué el curso no usa pasarelas de modelos?",
+          "correcta": "Porque añaden un intermediario más por el que pasa el código, y el curso conecta cada agente directamente a su proveedor.",
+          "incorrectas": [
+            "Porque no existen pasarelas de modelos.",
+            "Porque las pasarelas no admiten modelos locales.",
+            "Porque OpenCode no puede usar más de un proveedor."
+          ],
+          "justificacion": "Es una decisión de privacidad y de simplicidad."
+        },
+        {
+          "enunciado": "Para elegir herramientas, ¿por dónde se empieza según el tema?",
+          "correcta": "Por las restricciones que no se negocian: privacidad, herramientas impuestas, licencias.",
+          "incorrectas": [
+            "Por la herramienta con más funciones.",
+            "Por la herramienta que use más gente.",
+            "Por el precio más bajo."
+          ],
+          "justificacion": "Las restricciones descartan opciones antes de puntuar las demás."
+        },
+        {
+          "enunciado": "¿Para qué sirve una matriz de decisión con pesos?",
+          "correcta": "Para hacer explícito por qué se elige una opción y poder discutir qué importa más en ese proyecto.",
+          "incorrectas": [
+            "Para que la decisión la tome un programa.",
+            "Para calcular el coste exacto de cada herramienta.",
+            "Para evitar tener que hacer una prueba piloto."
+          ],
+          "justificacion": "La matriz no decide sola: ordena la discusión y deja la decisión escrita."
+        },
+        {
+          "enunciado": "Al pasar de OpenCode a otro agente, ¿qué es lo más delicado de traducir?",
+          "correcta": "Los permisos de los agentes, porque una regla mal traducida no da error: simplemente deja de proteger.",
+          "incorrectas": [
+            "Las specs, porque cada agente usa otro formato.",
+            "El `AGENTS.md`, porque ningún otro agente lo lee.",
+            "Los tests, porque dependen del agente."
+          ],
+          "justificacion": "Lo que está en formatos abiertos sobrevive; la configuración del agente hay que rehacerla y comprobarla."
+        }
+      ]
+    },
+    {
+      "titulo": "MCP: conectar el agente con sistemas externos",
+      "criterios": "f",
+      "preguntas": [
+        {
+          "enunciado": "¿Qué es MCP?",
+          "correcta": "Un estándar abierto que define cómo se conecta un agente a sistemas externos mediante servidores.",
+          "incorrectas": [
+            "Un modelo de lenguaje especializado en código.",
+            "Un framework de SDD.",
+            "Un formato para escribir specs."
+          ],
+          "justificacion": "Cada sistema tiene su servidor; cada agente, su cliente, y funcionan entre sí."
+        },
+        {
+          "enunciado": "En MCP, ¿quién decide qué herramienta usar y con qué argumentos?",
+          "correcta": "El modelo, a partir de los nombres, descripciones y esquemas que declara el servidor.",
+          "incorrectas": [
+            "El servidor, al leer el mensaje de la persona.",
+            "La persona, en cada llamada.",
+            "El sistema externo."
+          ],
+          "justificacion": "El modelo genera una llamada estructurada; el agente la envía al servidor."
+        },
+        {
+          "enunciado": "¿Qué diferencia hay entre una *tool* y un *resource* de MCP?",
+          "correcta": "Una *tool* es una acción con parámetros que decide el modelo; un *resource* es un dato identificado por una URI que se lee.",
+          "incorrectas": [
+            "Son lo mismo.",
+            "Un *resource* puede modificar datos y una *tool* no.",
+            "Las *tools* solo existen en servidores remotos."
+          ],
+          "justificacion": "Las tools actúan y son las más delicadas."
+        },
+        {
+          "enunciado": "¿Para qué sirve el esquema de los parámetros de una herramienta MCP?",
+          "correcta": "Se envía al cliente para que el modelo sepa qué enviar y se usa para validar cada llamada.",
+          "incorrectas": [
+            "Solo para documentar la herramienta.",
+            "Para cifrar los argumentos.",
+            "Para decidir qué agente puede usar la herramienta."
+          ],
+          "justificacion": "Una llamada que no cumple el esquema se rechaza antes de llegar a la función."
+        },
+        {
+          "enunciado": "¿Qué riesgo principal tiene un servidor MCP local?",
+          "correcta": "Es código que se ejecuta en tu equipo con tus permisos.",
+          "incorrectas": [
+            "Que los datos salen siempre a internet.",
+            "Que no admite autenticación.",
+            "Que no puede declarar herramientas."
+          ],
+          "justificacion": "Por eso se prefieren servidores oficiales o de código abierto, con la versión fijada."
+        },
+        {
+          "enunciado": "En OpenCode, ¿cómo se permite usar las herramientas de un servidor `specs` solo al agente revisor?",
+          "correcta": "Con una regla `specs_*` en `deny` en los permisos del proyecto y otra en `allow` en los del revisor.",
+          "incorrectas": [
+            "Con `disabled: true` en el servidor.",
+            "Escribiendo en el prompt del revisor que solo él puede usarlas.",
+            "No se puede: los servidores son para todos los agentes."
+          ],
+          "justificacion": "Las reglas del agente se aplican después de las del proyecto, y gana la última que coincide."
+        },
+        {
+          "enunciado": "¿Cómo se pasa una clave a un servidor MCP remoto sin guardarla en el repositorio?",
+          "correcta": "Con una variable de entorno referenciada en la configuración, como `{env:GITHUB_TOKEN}`.",
+          "incorrectas": [
+            "Escribiéndola en `opencode.json` y añadiendo el fichero a `.gitignore` después.",
+            "En un comentario del `AGENTS.md`.",
+            "No hace falta: los servidores remotos no se autentican."
+          ],
+          "justificacion": "El fichero dice de dónde leer la clave, no la clave."
+        },
+        {
+          "enunciado": "Una incidencia de GitHub contiene, en un comentario HTML, una instrucción para que el asistente cierre la incidencia. ¿Cuál es la defensa fiable?",
+          "correcta": "Que el agente no tenga herramientas para cerrarla: servidor en solo lectura y permisos mínimos.",
+          "incorrectas": [
+            "Pedir al modelo en el prompt que ignore las instrucciones maliciosas.",
+            "Usar un modelo más potente.",
+            "Leer las incidencias solo en la web de GitHub."
+          ],
+          "justificacion": "No basta con pedir: hay que impedir. A veces el modelo sigue estas instrucciones."
+        },
+        {
+          "enunciado": "¿Qué combinación es especialmente peligrosa en un agente con MCP?",
+          "correcta": "Que lea contenido no fiable, tenga acceso a datos privados y pueda enviar información fuera.",
+          "incorrectas": [
+            "Que use un modelo local y un servidor remoto.",
+            "Que tenga más de tres servidores configurados.",
+            "Que use herramientas y recursos del mismo servidor."
+          ],
+          "justificacion": "Quitar cualquiera de las tres cosas rompe la cadena."
+        },
+        {
+          "enunciado": "¿Por qué activar solo los servidores MCP necesarios también mejora el trabajo del agente?",
+          "correcta": "Porque las descripciones de todas las herramientas activas entran en el contexto de cada petición.",
+          "incorrectas": [
+            "Porque los servidores consumen la batería del equipo.",
+            "Porque OpenCode solo admite un servidor activo.",
+            "Porque los servidores ralentizan los tests."
+          ],
+          "justificacion": "Mínimo privilegio e ingeniería de contexto empujan en la misma dirección."
+        }
+      ]
+    }
+  ]
+}

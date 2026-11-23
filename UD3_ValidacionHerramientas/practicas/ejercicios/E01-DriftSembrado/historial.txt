@@ -1,0 +1,48 @@
+Salida de «git log --oneline --name-only» del repositorio original del
+proyecto (el repositorio de este ejercicio empieza con un solo commit).
+
+e7c41a9 Acepta el estado en mayúsculas
+src/servicios/servicio-portatiles.js
+tests/servicio-portatiles.test.js
+
+b25f0d3 Arreglo rápido: ordenar por carro
+src/servicios/servicio-portatiles.js
+tests/api-portatiles.test.js
+tests/servicio-portatiles.test.js
+
+91aa6e2 Busca el portátil sin pasar por el servicio
+src/controladores/controlador-portatiles.js
+src/servicios/servicio-portatiles.js
+tests/api-portatiles.test.js
+tests/servicio-portatiles.test.js
+
+5d0c8f4 Fusiona la feature A: consultar los portátiles
+7a3e112 Feature A: T-03 y T-04, API de consulta (implementada)
+docs/specs/A-consultar-portatiles/spec.md
+docs/specs/A-consultar-portatiles/tasks.md
+docs/specs/README.md
+src/app.js
+src/controladores/controlador-portatiles.js
+src/rutas/portatiles.js
+src/servidor.js
+tests/api-portatiles.test.js
+
+0f9b2d7 Feature A: T-01 y T-02, repositorio y servicio
+docs/specs/A-consultar-portatiles/spec.md
+docs/specs/A-consultar-portatiles/tasks.md
+docs/specs/README.md
+src/errores/error-no-encontrado.js
+src/errores/error-validacion.js
+src/repositorios/repositorio-portatiles.js
+src/servicios/servicio-portatiles.js
+tests/servicio-portatiles.test.js
+
+c3d5e80 Tasks de la feature A (aprobadas)
+docs/specs/A-consultar-portatiles/tasks.md
+
+8b1f6a4 Plan de la feature A (aprobado)
+docs/specs/A-consultar-portatiles/plan.md
+
+2e90c71 Spec de la feature A (aprobada)
+docs/specs/A-consultar-portatiles/spec.md
+docs/specs/README.md

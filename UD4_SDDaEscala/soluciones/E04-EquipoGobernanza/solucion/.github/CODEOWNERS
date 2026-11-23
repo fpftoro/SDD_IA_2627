@@ -1,0 +1,19 @@
+# Por defecto, cualquier cambio lo revisa desarrollo
+*                          @centro/desarrollo
+
+# Producto y calidad: el PRD y las specs
+/docs/prd.md               @centro/producto
+/docs/specs/*/spec.md      @centro/producto @centro/calidad
+
+# Arquitectura: planes, principios, memoria del agente y CI
+/docs/specs/*/plan.md      @centro/arquitectura
+/constitution.md           @centro/arquitectura
+/AGENTS.md                 @centro/arquitectura
+/opencode.json             @centro/arquitectura
+/.opencode/                @centro/arquitectura
+/.github/                  @centro/arquitectura
+
+# Calidad: las pruebas y los scripts de los gates
+/tests/                    @centro/calidad @centro/desarrollo
+/e2e/                      @centro/calidad @centro/desarrollo
+/herramientas/             @centro/calidad @centro/arquitectura

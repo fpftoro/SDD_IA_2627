@@ -1,0 +1,11 @@
+Salida de «git log --oneline --first-parent --name-only» de main en el
+repositorio original (el repositorio de este ejercicio empieza con un
+solo commit).
+
+a91f3c2 Arreglo rápido del mensaje de error de la lista
+src/controladores/controlador-tareas.js
+tests/api-tareas.test.js
+
+6b0e7d4 Fusiona la feature B: ver la lista de tareas
+3f2c8a1 Calidad: gates de SDD e integración continua
+…

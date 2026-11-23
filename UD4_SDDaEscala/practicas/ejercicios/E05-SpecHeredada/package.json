@@ -1,0 +1,13 @@
+{
+  "name": "avisos-devolucion",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "estado": "sh herramientas/estado-features.sh"
+  },
+  "devDependencies": {
+    "vitest": "^5.0.3"
+  }
+}

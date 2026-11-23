@@ -1,0 +1,50 @@
+diff --git a/docs/specs/A-consultar-portatiles/spec.md b/docs/specs/A-consultar-portatiles/spec.md
+index 9a3ac1c..2d56577 100644
+--- a/docs/specs/A-consultar-portatiles/spec.md
++++ b/docs/specs/A-consultar-portatiles/spec.md
+@@ -5,8 +5,8 @@
+ | Campo   | Valor                    |
+ |---------|--------------------------|
+ | Feature | Consultar los portátiles |
+-| Estado  | Implementada             |
+-| Versión | 1.0                      |
++| Estado  | Aprobada                 |
++| Versión | 1.1                      |
+ | Fecha   | AAAA-MM-DD               |
+ | Autor   | <nombre>                 |
+ 
+@@ -33,6 +33,9 @@ portátiles para saber si un carro me sirve antes de reservarlo.
+   deberá devolver solo los portátiles con ese estado, en el mismo orden.
+ - RF-03: Cuando se pida un portátil por su identificador, el sistema
+   deberá devolverlo con los mismos campos.
++- RF-04: Cuando se pida la lista con el parámetro buscar, el sistema
++  deberá devolver los portátiles cuyo código coincida con el texto
++  buscado, en el mismo orden.
+ 
+ ---
+ 
+@@ -73,6 +76,11 @@ Característica: Consultar los portátiles
+     Cuando se envía una petición GET /api/portatiles/3
+     Entonces la respuesta tiene el código 200
+     Y el cuerpo es el portátil P-03 del carro A, averiado
++
++  Escenario: AC-04 Buscar un portátil por su código
++    Cuando se envía una petición GET /api/portatiles?buscar=P-03
++    Entonces la respuesta tiene el código 200
++    Y el cuerpo tiene solo el portátil P-03
+ ```
+ 
+ ---
+diff --git a/docs/specs/README.md b/docs/specs/README.md
+index d142eef..8ef866b 100644
+--- a/docs/specs/README.md
++++ b/docs/specs/README.md
+@@ -2,7 +2,7 @@
+ 
+ | # | Feature | Carpeta | Estado |
+ |---|---------|---------|--------|
+-| A | Consultar los portátiles | A-consultar-portatiles/ | ✅ Implementada |
++| A | Consultar los portátiles | A-consultar-portatiles/ | 🔜 Aprobada |
+ | B | Reservar un carro | B-reservar-carro/ | ⏳ Pendiente |
+ | C | Registrar el préstamo | C-registrar-prestamo/ | ⏳ Pendiente |
+ | D | Registrar la devolución | D-registrar-devolucion/ | ⏳ Pendiente |

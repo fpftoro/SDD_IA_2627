@@ -1,0 +1,2 @@
+npm run lint da un error. Arréglalo sin cambiar lo que hace la API y
+comprueba que npm test sigue en verde.

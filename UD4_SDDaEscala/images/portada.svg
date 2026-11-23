@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400" role="img" aria-labelledby="t d">
+  <title id="t">UD4 · SDD a escala: varios agentes, equipos y proyectos reales</title>
+  <desc id="d">Portada de la unidad 4 del curso Desarrollo guiado por especificaciones con IA: una spec aprobada reparte el trabajo entre tres agentes con su papel (arquitecto, implementador y revisor), cada uno en su worktree, y sus resultados llegan a main solo después de la revisión de una persona.</desc>
+  <defs>
+    <linearGradient id="fondo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d2b2f"/>
+      <stop offset="1" stop-color="#16213e"/>
+    </linearGradient>
+    <linearGradient id="acento" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2ee6a6"/>
+      <stop offset="1" stop-color="#4cc9f0"/>
+    </linearGradient>
+    <marker id="flecha" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#2ee6a6"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="400" fill="url(#fondo)"/>
+  <!-- Retícula decorativa -->
+  <g stroke="#ffffff" stroke-opacity="0.05">
+    <path d="M0 50H1200M0 100H1200M0 150H1200M0 200H1200M0 250H1200M0 300H1200M0 350H1200"/>
+    <path d="M100 0V400M200 0V400M300 0V400M400 0V400M500 0V400M600 0V400M700 0V400M800 0V400M900 0V400M1000 0V400M1100 0V400"/>
+  </g>
+
+  <!-- Texto -->
+  <g font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+    <text x="60" y="80" fill="#b9dcd8" font-size="20" letter-spacing="3">DESARROLLO GUIADO POR ESPECIFICACIONES CON IA</text>
+    <rect x="60" y="100" width="120" height="6" rx="3" fill="url(#acento)"/>
+    <text x="60" y="185" fill="#ffffff" font-size="64" font-weight="700">UD4</text>
+    <text x="60" y="240" fill="#ffffff" font-size="31" font-weight="600">SDD a escala: varios agentes,</text>
+    <text x="60" y="282" fill="#ffffff" font-size="31" font-weight="600">equipos y proyectos reales</text>
+    <text x="60" y="340" fill="#2ee6a6" font-size="22" font-weight="600">OA4 · SDD en escenarios complejos</text>
+  </g>
+
+  <!-- Spec aprobada -->
+  <g font-family="Consolas, 'Courier New', monospace" font-size="14" transform="translate(640,140)">
+    <rect width="140" height="100" rx="10" fill="#ffffff" fill-opacity="0.08" stroke="#b9dcd8" stroke-width="2"/>
+    <rect width="140" height="30" rx="10" fill="#ffffff" fill-opacity="0.12"/>
+    <text x="70" y="20" text-anchor="middle" fill="#b9dcd8">spec.md</text>
+    <text x="18" y="58" fill="#ffffff">RF · AC · EC</text>
+    <text x="18" y="84" fill="#2ee6a6">✓ aprobada</text>
+  </g>
+
+  <!-- Reparto a los agentes -->
+  <g stroke="#2ee6a6" stroke-width="2" fill="none" marker-end="url(#flecha)">
+    <path d="M782 175C812 175 812 116 842 116"/>
+    <path d="M782 190H842"/>
+    <path d="M782 205C812 205 812 264 842 264"/>
+  </g>
+
+  <!-- Agentes, cada uno en su worktree -->
+  <g font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+    <g transform="translate(848,92)">
+      <rect width="190" height="48" rx="12" fill="#000000" fill-opacity="0.35" stroke="#4cc9f0" stroke-width="2"/>
+      <circle cx="24" cy="24" r="9" fill="none" stroke="#4cc9f0" stroke-width="2"/>
+      <text x="42" y="21" fill="#ffffff" font-size="15" font-weight="600">arquitecto</text>
+      <text x="42" y="38" fill="#b9dcd8" font-size="12" font-family="Consolas, 'Courier New', monospace">plan.md · tasks.md</text>
+    </g>
+    <g transform="translate(848,166)">
+      <rect width="190" height="48" rx="12" fill="#000000" fill-opacity="0.35" stroke="#4cc9f0" stroke-width="2"/>
+      <circle cx="24" cy="24" r="9" fill="none" stroke="#4cc9f0" stroke-width="2"/>
+      <text x="42" y="21" fill="#ffffff" font-size="15" font-weight="600">implementador</text>
+      <text x="42" y="38" fill="#b9dcd8" font-size="12" font-family="Consolas, 'Courier New', monospace">src/ · tests en verde</text>
+    </g>
+    <g transform="translate(848,240)">
+      <rect width="190" height="48" rx="12" fill="#000000" fill-opacity="0.35" stroke="#4cc9f0" stroke-width="2"/>
+      <circle cx="24" cy="24" r="9" fill="none" stroke="#4cc9f0" stroke-width="2"/>
+      <text x="42" y="21" fill="#ffffff" font-size="15" font-weight="600">revisor</text>
+      <text x="42" y="38" fill="#b9dcd8" font-size="12" font-family="Consolas, 'Courier New', monospace">informe · solo lectura</text>
+    </g>
+  </g>
+
+  <!-- Convergen en la revisión humana -->
+  <g stroke="#4cc9f0" stroke-width="2" fill="none" stroke-dasharray="5 5">
+    <path d="M1040 116C1070 116 1070 175 1090 182"/>
+    <path d="M1040 190H1086"/>
+    <path d="M1040 264C1070 264 1070 205 1090 198"/>
+  </g>
+  <circle cx="1104" cy="190" r="14" fill="#16213e" stroke="#febc2e" stroke-width="2"/>
+  <path d="M1097 190l4.5 5 7.5-9" fill="none" stroke="#febc2e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="1104" y="160" text-anchor="middle" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" fill="#febc2e">persona</text>
+
+  <!-- Llega a main -->
+  <path d="M1104 206V300" stroke="#2ee6a6" stroke-width="2.5" fill="none" marker-end="url(#flecha)"/>
+  <g transform="translate(1054,306)">
+    <rect width="100" height="40" rx="20" fill="#2ee6a6" fill-opacity="0.14" stroke="#2ee6a6" stroke-width="2"/>
+    <text x="50" y="26" text-anchor="middle" fill="#ffffff" font-family="Consolas, 'Courier New', monospace" font-size="15">main</text>
+  </g>
+
+  <text x="640" y="382" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" fill="#b9dcd8">una spec, varios agentes con su papel y una persona que decide</text>
+</svg>

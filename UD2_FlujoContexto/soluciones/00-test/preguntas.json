@@ -1,0 +1,643 @@
+{
+  "titulo": "El flujo SDD y el contexto del agente",
+  "oa": "OA2",
+  "semilla": 2026,
+  "bloques": [
+    {
+      "titulo": "El flujo SDD",
+      "criterios": "a",
+      "preguntas": [
+        {
+          "enunciado": "¿Qué problema resuelve el flujo SDD al separar el trabajo en fases?",
+          "correcta": "Que las decisiones no se mezclen en un cambio enorme: cada fase deja un documento que una persona revisa.",
+          "incorrectas": [
+            "Que el agente trabaje más deprisa, porque genera todo el código de la feature en una sola sesión larga y sin pausas.",
+            "Que no haga falta revisar el código, porque los documentos de cada fase ya lo garantizan.",
+            "Que toda la documentación del proyecto quede escrita antes de empezar la primera feature."
+          ],
+          "justificacion": "Revisar una spec, un plan de dos páginas y una lista de tasks es más fácil que revisar mil líneas con todas las decisiones dentro."
+        },
+        {
+          "enunciado": "¿Qué artefacto produce la fase de descomponer y a qué pregunta responde?",
+          "correcta": "`tasks.md`: ¿en qué pasos y en qué orden se construye?",
+          "incorrectas": [
+            "`plan.md`: ¿cómo se va a construir?",
+            "`spec.md`: ¿qué hay que construir?",
+            "`constitution.md`: ¿cómo se trabaja en este proyecto?"
+          ],
+          "justificacion": "Especificar da la spec (qué), planificar el plan (cómo), descomponer las tasks (en qué pasos) e implementar el código y los commits."
+        },
+        {
+          "enunciado": "¿Quién cierra cada fase del flujo?",
+          "correcta": "Una persona, que revisa y aprueba; ninguna fase la cierra el agente.",
+          "incorrectas": [
+            "El agente *build*, cuando ha guardado el documento y los tests pasan.",
+            "El agente *plan*, cuando el documento ya no tiene marcadores `[NECESITA ACLARACIÓN]`.",
+            "La integración continua, cuando sale en verde."
+          ],
+          "justificacion": "En todas las fases, la columna de la persona dice «aprobar» o «revisar»: el agente redacta, propone e implementa."
+        },
+        {
+          "enunciado": "En la fase de planificar, ¿cómo se reparten el trabajo los agentes *plan* y *build* de OpenCode?",
+          "correcta": "*Plan* propone el plan y se discute con él; cuando está acordado, *build* guarda solo `plan.md`.",
+          "incorrectas": [
+            "*Build* hace toda la fase, porque al final hay que escribir un fichero y *plan* no puede.",
+            "*Plan* propone y guarda el plan, porque puede editar los ficheros de `docs/` pero no los de `src/`.",
+            "*Build* propone el plan y *plan* lo revisa y lo aprueba antes de que se guarde en `plan.md`."
+          ],
+          "justificacion": "*Plan* no puede editar los ficheros del proyecto; *build* sí, por eso el prompt de guardar dice qué fichero crear y que no toque nada más."
+        },
+        {
+          "enunciado": "¿En qué momento se crea la rama de una feature y qué va en ella?",
+          "correcta": "Al empezar el plan; lleva plan, tasks, código, tests y las versiones nuevas de la spec.",
+          "incorrectas": [
+            "Al crear el borrador de la spec, para que la spec se escriba, se revise y se apruebe en la rama.",
+            "Al empezar el primer ciclo de implementación; el plan y las tasks se aprueban antes en `main`.",
+            "Al terminar la feature, para guardar una copia de lo hecho antes de fusionarlo en `main`."
+          ],
+          "justificacion": "La spec se aprueba en `main` porque es una decisión de producto que todo el equipo debe ver en el índice."
+        },
+        {
+          "enunciado": "¿Para qué sirve la opción `--no-ff` al fusionar la rama de una feature?",
+          "correcta": "Para que Git cree un commit de fusión aunque `main` no haya cambiado, marcando dónde acaba la feature.",
+          "incorrectas": [
+            "Para que Git rechace la fusión si la integración continua del último commit está en rojo.",
+            "Para fusionar sin crear ningún commit nuevo, de modo que el historial de `main` quede en línea recta.",
+            "Para que Git borre la rama de la feature automáticamente en cuanto termina la fusión."
+          ],
+          "justificacion": "Ese commit de fusión es el que permite leer después `main` feature a feature con `--first-parent`."
+        },
+        {
+          "enunciado": "Al revisar un plan, lees: «si el texto está vacío, la tarea se guarda como “Sin título”». La spec no dice nada de ese caso. ¿Dónde se corrige?",
+          "correcta": "En la spec: es un comportamiento que nadie ha decidido; se decide allí y se vuelve a aprobar.",
+          "incorrectas": [
+            "En el plan, sustituyendo esa decisión por otra más razonable antes de aprobarlo y guardarlo.",
+            "En el código, cuando se implemente, porque es ahí donde se verá si la decisión funciona.",
+            "En la constitución, porque las tareas vacías pueden aparecer en todas las features."
+          ],
+          "justificacion": "Un problema se corrige donde nació: un comportamiento sin decidir es un hueco de la spec, aunque se descubra en el plan."
+        },
+        {
+          "enunciado": "Al revisar la implementación aparece un fichero de código que no viene de ninguna task. Según la trazabilidad, ¿qué significa?",
+          "correcta": "Que nadie lo pidió: ninguna decisión del plan ni requisito de la spec lo justifica.",
+          "incorrectas": [
+            "Que es un fichero de configuración y, por eso, no necesita una task propia en `tasks.md`.",
+            "Que su task ya se marcó con `[x]` y por eso ha desaparecido de `tasks.md`.",
+            "Que lo ha generado la integración continua al ejecutar los tests en GitHub después del `push`."
+          ],
+          "justificacion": "Seguir la cadena hacia la izquierda responde a «¿por qué está este código aquí?»; si no hay cadena, el agente lo añadió por su cuenta."
+        },
+        {
+          "enunciado": "¿Qué es replanificar entre dos features?",
+          "correcta": "Volver al punto de control 0 tras fusionar una feature, antes de empezar la siguiente.",
+          "incorrectas": [
+            "Una quinta fase del flujo que produce un documento con la planificación de todo el proyecto.",
+            "Rehacer el plan técnico de la feature que acaba de terminar con lo aprendido al implementarla.",
+            "Aprovechar la pausa entre features para programar mejoras pequeñas sin pasar por el flujo."
+          ],
+          "justificacion": "Se revisan el índice, la constitución, `AGENTS.md` y los prompts repetidos. No es una fase ni produce un documento nuevo; si cambia algo, va en su propio commit."
+        },
+        {
+          "enunciado": "¿Qué tienen en común Spec Kit, Kiro y Conductor?",
+          "correcta": "Separan contexto, spec, plan y tareas en ficheros Markdown del repositorio, con revisión humana.",
+          "incorrectas": [
+            "Usan los mismos nombres de ficheros y comandos, así que un proyecto se puede pasar de una a otra sin cambios.",
+            "Las tres guardan las tareas dentro del plan, sin un fichero de tasks aparte.",
+            "Las tres ejecutan todas las tasks seguidas, sin puntos de control, para ganar velocidad."
+          ],
+          "justificacion": "Cambian los nombres y el grado de automatización, no el flujo: el método no depende de la herramienta."
+        }
+      ]
+    },
+    {
+      "titulo": "Especificar y planificar",
+      "criterios": "b",
+      "preguntas": [
+        {
+          "enunciado": "¿En qué consiste empezar la spec de una feature con una entrevista?",
+          "correcta": "El agente te hace preguntas antes de escribir, con alternativas y sus consecuencias, y tú decides.",
+          "incorrectas": [
+            "El agente entrevista a los futuros usuarios y escribe la spec a partir de lo que contestan.",
+            "Escribes tú la spec con la plantilla y después el agente te pregunta si estás de acuerdo con cada parte.",
+            "El agente escribe la spec completa con lo más habitual y marca al final las partes que podrías cambiar."
+          ],
+          "justificacion": "El agente encuentra las preguntas; tú las respondes, y cada respuesta es una decisión de producto."
+        },
+        {
+          "enunciado": "En la ronda de aclaración, el agente encuentra decisiones que la spec no resuelve. ¿Qué haces con ellas?",
+          "correcta": "Las que se notarían desde fuera se deciden en la spec; las internas, en el plan.",
+          "incorrectas": [
+            "Dejas que el agente las resuelva con lo más habitual, para no retrasar la aprobación.",
+            "Las llevas todas a la constitución, para que valgan en todas las features.",
+            "Las resuelves todas en el plan, porque el plan es el sitio de las decisiones técnicas."
+          ],
+          "justificacion": "Es la pregunta de la UD1: «¿lo notaría alguien desde fuera?». Si sí, es comportamiento y va en la spec."
+        },
+        {
+          "enunciado": "¿Cuál de estas decisiones de la feature «Añadir una tarea» va en el plan técnico y no en la spec?",
+          "correcta": "En qué capa se comprueba que el texto de la tarea no está vacío.",
+          "incorrectas": [
+            "Qué mensaje de error recibe quien envía un texto vacío.",
+            "Cuántos caracteres puede tener como máximo el texto de una tarea.",
+            "Si la tarea nueva aparece al principio o al final de la lista."
+          ],
+          "justificacion": "Las otras tres cambian lo que ve quien usa la aplicación; la capa donde se valida solo cambia cómo es el código."
+        },
+        {
+          "enunciado": "¿Por qué el agente no escribe código en la fase de planificar?",
+          "correcta": "Porque las decisiones se revisan mejor sin código, el código ancla y el plan aún puede cambiar la spec.",
+          "incorrectas": [
+            "Porque el agente *plan* no tiene acceso a las herramientas del lenguaje y no podría ejecutar ni probar ese código.",
+            "Porque el código del plan se copiaría tal cual en las tasks y obligaría a mantenerlo en dos sitios.",
+            "Porque la constitución prohíbe guardar código en la carpeta `docs/`, donde vive el plan."
+          ],
+          "justificacion": "Con el servicio ya escrito, cambiar una decisión significa tirar trabajo, y la tentación es aceptarla como está."
+        },
+        {
+          "enunciado": "Si el agente no escribe código al planificar, ¿qué puede contener el plan?",
+          "correcta": "Los nombres de ficheros, funciones principales y paquetes, pero no el cuerpo de las funciones.",
+          "incorrectas": [
+            "El cuerpo de las funciones más delicadas, para revisarlas antes de que llegue la implementación.",
+            "Los tests completos de la feature, porque en el flujo los tests van antes que el código.",
+            "Nada técnico: solo la visión general, los riesgos y las preguntas pendientes para la spec."
+          ],
+          "justificacion": "«Sin código» no es «sin nombres»: los ficheros, las funciones y los paquetes son decisiones que hay que revisar."
+        },
+        {
+          "enunciado": "¿Qué parte de una decisión técnica se olvida con más frecuencia y evita que otro agente vuelva a proponer lo mismo más adelante?",
+          "correcta": "La alternativa descartada.",
+          "incorrectas": [
+            "El identificador `D-xx` de la decisión.",
+            "Los identificadores de la spec que cubre.",
+            "El motivo de la decisión."
+          ],
+          "justificacion": "Si dentro de un mes alguien propone el paquete `uuid`, la respuesta ya está escrita en el plan."
+        },
+        {
+          "enunciado": "Un *edge case* de la spec se nota en la respuesta de la API. ¿Cómo debe comprobarlo la estrategia de pruebas del plan?",
+          "correcta": "Con un test de integración de la API, aunque además tenga un test unitario del servicio.",
+          "incorrectas": [
+            "Con un test unitario del servicio basta, porque es ahí donde está la lógica que lo resuelve.",
+            "A mano en el navegador, con una lista de comprobación en la task de la página.",
+            "Con un test unitario del repositorio, que es la capa que devuelve los datos a la API."
+          ],
+          "justificacion": "El unitario prueba la pieza, pero no que la API la use: la pregunta es dónde se ve lo que dice la spec."
+        },
+        {
+          "enunciado": "Has cambiado a *build* y le has pedido que guarde el plan acordado. ¿Qué compruebas antes de aprobarlo?",
+          "correcta": "Que `git status` solo muestra `plan.md` y que el fichero dice lo acordado.",
+          "incorrectas": [
+            "Que `npm test` sigue en verde, porque guardar el plan no debe romper ningún test.",
+            "Que el agente ha cambiado el estado del plan a `Aprobado` después de guardarlo.",
+            "Que existe una copia del plan en `~/.opencode/plan/`, que es donde OpenCode guarda los planes."
+          ],
+          "justificacion": "Si aparece otro fichero, el agente se ha adelantado (se deshace con `/undo`); y el plan se lee entero, porque al pasarlo a limpio puede haber resumido algo."
+        },
+        {
+          "enunciado": "El agente propone en el plan una dependencia que no está en la constitución. ¿Qué haces?",
+          "correcta": "Comprobar si hace falta; si se acepta, anotarla en «Dependencias» con su motivo.",
+          "incorrectas": [
+            "Aceptarla, porque elegir las dependencias es una decisión técnica que corresponde al plan.",
+            "Rechazarla siempre, porque la constitución prohíbe cualquier dependencia que no nombre.",
+            "Dejar que *build* la instale y decidir en la revisión del código si se queda."
+          ],
+          "justificacion": "Si algo que ya existe cubre lo mismo, se rechaza. Si va a usarse en todo el proyecto, además se lleva a la constitución."
+        },
+        {
+          "enunciado": "Al planificar aparece algo que la spec no decide y que se notaría desde fuera del sistema. ¿Qué se hace?",
+          "correcta": "Se para el plan: se decide, la spec sube de versión y se vuelve a aprobar antes de seguir.",
+          "incorrectas": [
+            "Se decide en el plan y se anota en «Riesgos y dudas», para revisarlo cuando se implemente.",
+            "Se deja para la implementación, cuando el agente tenga el código delante y más información.",
+            "Se añade a la constitución, para que la decisión valga también en las demás features."
+          ],
+          "justificacion": "Lo decide quien aprueba la spec, y el plan se retoma citando la versión nueva. Cada hueco es una decisión que el agente habría tomado en silencio en el código."
+        }
+      ]
+    },
+    {
+      "titulo": "Descomponer en tasks e implementar",
+      "criterios": "c",
+      "preguntas": [
+        {
+          "enunciado": "¿Cuál de estos criterios de terminado hace que una task no sea verificable?",
+          "correcta": "«Terminada cuando: el servicio funciona bien».",
+          "incorrectas": [
+            "«Terminada cuando: los tests de T-03 pasan y los de T-01 siguen pasando».",
+            "«Terminada cuando: los tests existen y fallan, porque el servicio aún no existe».",
+            "«Terminada cuando: `npm test` pasa»."
+          ],
+          "justificacion": "Un criterio de terminado se tiene que poder comprobar sin opinar: qué tests pasan, qué comando funciona."
+        },
+        {
+          "enunciado": "¿Para qué sirve sobre todo la línea «Ficheros» de una task al revisar el ciclo?",
+          "correcta": "Para ver lo que el agente ha hecho sin pedírselo: todo fichero cambiado que no esté en ella.",
+          "incorrectas": [
+            "Para que el agente sepa qué ficheros puede borrar antes de empezar a implementar la task del grupo.",
+            "Para decidir en qué orden se ejecutan los tests del grupo cuando se lanza `npm test`.",
+            "Para que OpenCode escriba automáticamente el mensaje del commit con esos ficheros."
+          ],
+          "justificacion": "Todo lo que no está en «Ficheros» queda fuera de la task; se compara con `git status`."
+        },
+        {
+          "enunciado": "¿Qué indica el marcador `[P]` en una task?",
+          "correcta": "Que se puede hacer en paralelo: no depende de otras ni toca sus ficheros.",
+          "incorrectas": [
+            "Que es prioritaria y hay que hacerla antes que las demás tasks de su grupo.",
+            "Que es una task de pruebas y va antes de la implementación que comprueba.",
+            "Que está pendiente de revisión en el punto de control del grupo."
+          ],
+          "justificacion": "En el ejemplo, T-07 (el HTML) lleva `[P]` porque no depende de la API."
+        },
+        {
+          "enunciado": "¿Cómo se detecta mejor una «dependencia al revés» en una lista de tasks?",
+          "correcta": "Leyéndolas en orden y preguntándose en cada una si lo que necesita ya existe.",
+          "incorrectas": [
+            "Comprobando que cada task toca uno o dos ficheros como máximo.",
+            "Ejecutando `npm test` después de aprobar las tasks y antes del primer ciclo.",
+            "Buscando las tasks que no llevan el marcador `[P]` y adelantándolas."
+          ],
+          "justificacion": "Leídas de una en una, todas parecen correctas; el error solo se ve al recorrerlas en orden."
+        },
+        {
+          "enunciado": "¿Por qué, en cada ciclo, hay que ver los tests nuevos en rojo antes de implementar?",
+          "correcta": "Porque un test que pasa sin código no comprueba nada: el rojo prueba que falla por el motivo correcto.",
+          "incorrectas": [
+            "Porque Vitest no ejecuta un test nuevo hasta que ha fallado una vez en el equipo de quien lo escribe.",
+            "Porque la integración continua exige un commit con los tests en rojo antes de aceptar cada commit en verde.",
+            "Porque la salida en rojo le dice al agente qué ficheros tiene que crear y con qué nombres."
+          ],
+          "justificacion": "El motivo correcto del rojo es que el código aún no existe, no un error en el propio test."
+        },
+        {
+          "enunciado": "¿Por qué el prompt de implementar prohíbe cambiar un test para que pase?",
+          "correcta": "Porque todo quedaría en verde aunque los tests ya no comprobaran la spec.",
+          "incorrectas": [
+            "Porque OpenCode marca los ficheros de tests como de solo lectura mientras el agente implementa.",
+            "Porque cambiar un test obliga a rehacer el plan y las tasks de toda la feature.",
+            "Porque los tests solo los escribe una persona."
+          ],
+          "justificacion": "Es la trampa más peligrosa de la fase. Si el agente cree que un test está mal, lo dice; la persona decide si el error está en el test o en la spec."
+        },
+        {
+          "enunciado": "El agente termina el grupo y te dice que todos los tests pasan. ¿Qué haces en el punto de control 4?",
+          "correcta": "Ejecutar tú `git status`, `git diff` y `npm test`, y revisar el cambio con la lista.",
+          "incorrectas": [
+            "Fiarte de su resumen y hacer el commit, porque la integración continua repetirá los tests después.",
+            "Pedirle que vuelva a ejecutar `npm test` y que te pegue la salida completa en la conversación.",
+            "Subir la rama y revisar el código solo si la integración continua sale en rojo."
+          ],
+          "justificacion": "La lista: ficheros, tests, cobertura, plan, constitución y alcance. «El agente dice que los tests pasan» no es «los tests pasan»: puede haber ejecutado otro comando o leído mal la salida."
+        },
+        {
+          "enunciado": "Si ejecutas `npm test` en cada punto de control, ¿para qué sirve la integración continua?",
+          "correcta": "Para ejecutar los tests en cada `push`, en una máquina limpia con solo lo que hay en el repositorio.",
+          "incorrectas": [
+            "Para comprobar que el código respeta el plan, la constitución y la línea «Ficheros» de cada una de las tasks.",
+            "Para sustituir al punto de control 4, de modo que la persona solo revise cuando algo falla.",
+            "Para fusionar la rama en `main` automáticamente en cuanto todos los tests salen en verde."
+          ],
+          "justificacion": "Detecta lo que tu equipo esconde (un fichero sin subir, una dependencia instalada a mano) y deja el resultado junto al commit."
+        },
+        {
+          "enunciado": "En tu equipo `npm test` pasa, pero la CI del mismo commit falla con `Cannot find module '../src/servicios/servicio-tareas.js'`. ¿Qué es lo más probable?",
+          "correcta": "Que el fichero no se añadió al commit: está en tu equipo pero no en el repositorio.",
+          "incorrectas": [
+            "Que el workflow está mal y hay que quitar el paso `npm ci` para que la CI pase.",
+            "Que la máquina de GitHub no tiene permiso para leer la carpeta `src/` del repositorio.",
+            "Que GitHub usa otra versión de Vitest distinta de la que tienes instalada en tu equipo."
+          ],
+          "justificacion": "Se comprueba con `git status`; el workflow no se toca, porque es la vara de medir."
+        },
+        {
+          "enunciado": "En mitad de un ciclo, ves que el agente ha elegido el nombre de un campo de la respuesta de la API que la spec no fija. ¿Qué haces?",
+          "correcta": "Paras y lo decides en la spec, con una versión nueva, en el mismo commit que el código.",
+          "incorrectas": [
+            "Lo aceptas, porque el nombre de un campo es un detalle de implementación que decide el agente.",
+            "Lo anotas en el plan como una decisión técnica nueva y sigues con el ciclo.",
+            "Lo dejas como está y lo decides en la replanificación, cuando la feature esté fusionada."
+          ],
+          "justificacion": "Quien llama a la API ve ese nombre: es comportamiento, y si se decide solo en el código, la decisión es invisible."
+        }
+      ]
+    },
+    {
+      "titulo": "Artefactos y estado de las features",
+      "criterios": "d",
+      "preguntas": [
+        {
+          "enunciado": "¿Por qué la spec, el plan y las tasks se guardan en el mismo repositorio que el código?",
+          "correcta": "Porque así el agente los lee y un cambio de comportamiento lleva spec y código en el mismo commit.",
+          "incorrectas": [
+            "Porque GitHub no permite enlazar desde el código documentos que estén guardados en otro servicio.",
+            "Porque así la integración continua comprueba en cada `push` que la spec y el código dicen lo mismo.",
+            "Porque los ficheros Markdown ocupan poco y no hace falta guardarlos en otro sitio aparte."
+          ],
+          "justificacion": "Además, el historial muestra cómo evolucionó la intención. Una spec que vive fuera del repositorio no existe para el agente."
+        },
+        {
+          "enunciado": "¿Qué diferencia hay entre una feature `⏳ Pendiente` y una `📝 Borrador`?",
+          "correcta": "`Pendiente` solo existe en el índice y no hay spec; `Borrador` es una spec que se está escribiendo.",
+          "incorrectas": [
+            "`Pendiente` es una spec que espera el punto de control 1; `Borrador`, una spec que la revisión ha devuelto para rehacerla.",
+            "`Pendiente` es una spec aprobada que espera su plan; `Borrador`, una feature con el plan todavía en curso.",
+            "Son el mismo estado: el índice usa `Pendiente` y la spec usa `Borrador` para referirse a lo mismo."
+          ],
+          "justificacion": "En cuanto se crea `spec.md`, la feature pasa de `⏳ Pendiente` a `📝 Borrador`."
+        },
+        {
+          "enunciado": "En `main`, la spec y el índice de una feature dicen `🔜 Aprobada`, y en `src/` hay código suyo a medio hacer. ¿Qué indica?",
+          "correcta": "Una incoherencia: se empezó a implementar sin cambiar el estado o se fusionó a medias.",
+          "incorrectas": [
+            "Nada raro: `main` sigue diciendo `🔜 Aprobada` mientras la feature se implementa, hasta que se fusiona.",
+            "Que el estado correcto es `⏳ Pendiente`, porque la feature todavía no tiene tasks aprobadas.",
+            "Que basta con cambiar el índice a `✅ Implementada`, porque ya hay código de la feature en `main`."
+          ],
+          "justificacion": "Mientras se implementa, el código está en la rama; en `main` no puede haber código de una feature `Aprobada`."
+        },
+        {
+          "enunciado": "Pides al agente que revise una spec y, además de revisarla, cambia su estado a `Aprobada`. ¿Qué haces?",
+          "correcta": "Deshacer el cambio de estado, porque aprobar lo decide una persona, y prohibirlo en `AGENTS.md`.",
+          "incorrectas": [
+            "Aceptarlo si la revisión es buena, porque el agente ha comprobado la spec con la lista del punto de control 1.",
+            "Aceptarlo y actualizar el índice en un commit aparte, para que los dos digan lo mismo.",
+            "Pedirle que cambie también el índice, para que `npm run estado` no dé error."
+          ],
+          "justificacion": "Cada cambio de estado es una decisión que firma una persona; el agente puede marcar tasks, pero no aprobar."
+        },
+        {
+          "enunciado": "¿Cuándo se actualiza el índice de features `docs/specs/README.md`?",
+          "correcta": "En el mismo commit que el cambio de estado de la spec.",
+          "incorrectas": [
+            "Al fusionar la rama de la feature, con todos los estados de golpe.",
+            "Al terminar cada semana, revisando todas las specs a la vez.",
+            "Cuando `npm run estado` detecta que hay alguna diferencia."
+          ],
+          "justificacion": "Si se actualiza «luego», se olvida; y un índice que miente es peor que no tenerlo, porque el agente lo cree."
+        },
+        {
+          "enunciado": "El índice y la spec de una feature no dicen el mismo estado. ¿Cuál está mal?",
+          "correcta": "El índice: manda la spec.",
+          "incorrectas": [
+            "La spec: el índice lo ve el equipo.",
+            "El más antiguo, según Git.",
+            "El del último commit."
+          ],
+          "justificacion": "El estado se escribe en la spec (la fuente) y se copia en el índice para verlo todo de un vistazo."
+        },
+        {
+          "enunciado": "Mientras implementas la feature B en su rama, ¿qué estado muestra el índice en `main`?",
+          "correcta": "`🔜 Aprobada`: `main` muestra lo terminado, y el estado de la rama cambia en ella.",
+          "incorrectas": [
+            "`🔧 En implementación`, porque el índice de `main` se actualiza en el commit de cada ciclo.",
+            "`⏳ Pendiente`, porque la feature no cuenta como aprobada hasta que tiene plan y tasks.",
+            "`✅ Implementada` en cuanto se aprueban las tasks, porque ya no queda nada por decidir."
+          ],
+          "justificacion": "La rama dice `🔧 En implementación`. Para saber qué se está haciendo, se miran las ramas abiertas (`git branch`); al fusionar, `main` pasa a `✅ Implementada`."
+        },
+        {
+          "enunciado": "¿Qué muestra `git log --oneline --first-parent` en `main`?",
+          "correcta": "Solo la línea de `main`: specs aprobadas, fusiones y replanificaciones, sin los commits de cada rama.",
+          "incorrectas": [
+            "Solo el primer commit de cada feature, el de la spec en borrador, para ver cuándo empezó cada una de ellas.",
+            "Los commits de la rama actual que todavía no están en `main`, para saber qué falta por fusionar.",
+            "La historia de un fichero concreto, siguiéndolo aunque se haya renombrado con `git mv`."
+          ],
+          "justificacion": "Funciona porque cada feature se fusiona con `--no-ff`; sin `--first-parent` se ve además cada fase y cada ciclo."
+        },
+        {
+          "enunciado": "Al replanificar, el equipo decide implementar la feature D antes que la C. ¿Cómo se hace?",
+          "correcta": "Cambiando sus prefijos con `git mv`, reordenando el índice y revisando las referencias.",
+          "incorrectas": [
+            "Reordenando solo las filas del índice, porque el prefijo de la carpeta no tiene ningún significado.",
+            "Borrando las dos carpetas y creándolas otra vez con el prefijo nuevo, en el mismo commit.",
+            "Creando una rama para cada feature con su nombre nuevo y fusionándolas después en `main`."
+          ],
+          "justificacion": "`git mv` conserva la relación con el nombre anterior; y el agente seguirá cualquier ruta vieja que quede en un documento."
+        },
+        {
+          "enunciado": "¿Qué separa OpenSpec para llevar el estado de las features?",
+          "correcta": "Las specs vigentes del sistema de los cambios en curso, que se integran en ellas al archivarse.",
+          "incorrectas": [
+            "La spec de cada feature de su plan técnico, que guarda en dos carpetas distintas del repositorio.",
+            "Las features de cada persona del equipo, cada una en una carpeta con el nombre de quien la lleva.",
+            "Las ramas de Git de las features en curso de las ramas ya fusionadas en `main`."
+          ],
+          "justificacion": "Por eso encaja cuando se cambian a menudo features que ya existen: se describe el cambio, no se reescribe la spec."
+        }
+      ]
+    },
+    {
+      "titulo": "La ventana de contexto",
+      "criterios": "e",
+      "preguntas": [
+        {
+          "enunciado": "¿Qué es la ventana de contexto de un modelo?",
+          "correcta": "El máximo que el modelo puede recibir de una vez: instrucciones, ficheros, historial y tu mensaje.",
+          "incorrectas": [
+            "La parte de la pantalla de OpenCode donde se ve la conversación con el agente y sus respuestas.",
+            "El número de sesiones anteriores que el agente recuerda al empezar una nueva en el mismo proyecto.",
+            "La lista de ficheros del repositorio que el agente tiene permiso para leer según `opencode.json`."
+          ],
+          "justificacion": "Lo que no está en la ventana no existe para el modelo, y cada sesión empieza con la ventana vacía."
+        },
+        {
+          "enunciado": "Según la idea del presupuesto de atención, ¿cuál es el objetivo al preparar el contexto de una tarea?",
+          "correcta": "El conjunto más pequeño de información útil para conseguir el resultado.",
+          "incorrectas": [
+            "Toda la información que pueda servir, por si acaso, mientras quepa en la ventana.",
+            "Llenar la ventana casi hasta el límite, para que el modelo tenga el máximo de datos.",
+            "Solo las reglas del proyecto, sin documentos."
+          ],
+          "justificacion": "El conjunto más pequeño que haga más probable el resultado que quieres. Los tokens que no son relevantes restan, porque reparten la atención del modelo entre más cosas."
+        },
+        {
+          "enunciado": "¿Qué mostró el trabajo de investigación *Lost in the Middle*?",
+          "correcta": "Que los modelos aprovechan peor lo que está en el centro de un contexto largo.",
+          "incorrectas": [
+            "Que los modelos olvidan lo que está al principio de un contexto largo y solo atienden al final.",
+            "Que un contexto largo hace responder más deprisa al modelo.",
+            "Que los modelos se saltan los ficheros intermedios cuando leen todos los de una carpeta."
+          ],
+          "justificacion": "Lo del principio y lo del final se aprovecha mejor. Por eso las reglas van al principio (las carga la herramienta) y la tarea y sus restricciones críticas, al final."
+        },
+        {
+          "enunciado": "En una sesión larga, el agente vuelve a proponer «como comentamos» algo que rechazaste hace un rato. ¿Por qué?",
+          "correcta": "Porque la propuesta rechazada sigue en la ventana y el agente puede tomarla por una decisión.",
+          "incorrectas": [
+            "Porque el agente aprende de cada rechazo y vuelve a proponer lo rechazado para confirmar que no lo quieres.",
+            "Porque el modelo guarda las propuestas de las sesiones anteriores y las mezcla con la actual.",
+            "Porque OpenCode añade a `AGENTS.md` un resumen de lo que se ha hablado durante la sesión."
+          ],
+          "justificacion": "En SDD, lo decidido está en los documentos; lo que solo está en la conversación no cuenta."
+        },
+        {
+          "enunciado": "¿Por qué las reglas permanentes van en `AGENTS.md` y en la constitución, y no en el primer mensaje de cada sesión?",
+          "correcta": "Porque las instrucciones del principio de la sesión quedan enterradas bajo el historial y pierden fuerza.",
+          "incorrectas": [
+            "Porque el primer mensaje de una sesión no llega al modelo hasta que el agente ha leído los ficheros del proyecto.",
+            "Porque los ficheros de reglas no ocupan sitio en la ventana de contexto y el primer mensaje sí.",
+            "Porque así el agente no puede incumplirlas, igual que si estuvieran en los permisos de `opencode.json`."
+          ],
+          "justificacion": "Es el desvanecimiento de las instrucciones (*instruction fade-out*). `AGENTS.md` y la constitución se cargan siempre en una posición fija; lo que garantiza, en cambio, son los permisos."
+        },
+        {
+          "enunciado": "¿Qué contexto no necesita la fase de descomponer el plan en tasks?",
+          "correcta": "El código y el historial de la sesión del plan.",
+          "incorrectas": [
+            "El plan aprobado, con su secuencia de implementación.",
+            "La spec aprobada, con sus identificadores.",
+            "`AGENTS.md` y la constitución del proyecto."
+          ],
+          "justificacion": "Con el plan y la spec basta para dividir el trabajo; lo que importaba de la sesión del plan ya está en el plan."
+        },
+        {
+          "enunciado": "Para planificar la feature B cargas como ejemplo el plan de la feature A. ¿Qué tipo de memoria del agente es?",
+          "correcta": "Episódica.",
+          "incorrectas": [
+            "De trabajo.",
+            "Procedimental.",
+            "Semántica."
+          ],
+          "justificacion": "La episódica responde a «¿cómo se resolvió algo parecido antes?» y se carga solo cuando sirve para la tarea."
+        },
+        {
+          "enunciado": "El agente ha tomado un camino equivocado porque a tu mensaje le faltaba información. ¿Qué es mejor hacer?",
+          "correcta": "`/undo` y reescribir el mensaje con lo que faltaba.",
+          "incorrectas": [
+            "Corregirlo en el mensaje siguiente, para que el agente aprenda del error y no lo repita.",
+            "Compactar la sesión con `/compact`.",
+            "Dejar que termine y corregir después el resultado a mano en los ficheros."
+          ],
+          "justificacion": "Así el intento fallido no sigue en la ventana; si corriges encima, el agente trabaja con la versión mala y la corrección a la vez."
+        },
+        {
+          "enunciado": "¿Por qué compactar la sesión es el último recurso y no la primera opción?",
+          "correcta": "Porque el resumen pierde detalles y no eliges tú cuáles.",
+          "incorrectas": [
+            "Porque al compactar OpenCode deshace también los cambios que el agente hizo en los ficheros.",
+            "Porque OpenCode solo compacta de forma automática.",
+            "Porque al compactar se pierden `AGENTS.md` y la constitución hasta la siguiente sesión."
+          ],
+          "justificacion": "Si empieza una fase nueva, es mejor una sesión nueva. Se compacta cuando todavía no has podido escribir en ficheros lo que importa, y mejor a mano en un buen momento."
+        },
+        {
+          "enunciado": "¿Qué ventaja tiene encargar una búsqueda en el código al subagente *explore*?",
+          "correcta": "Lee en su propia sesión y a la tuya solo llega su respuesta breve.",
+          "incorrectas": [
+            "Usa siempre un modelo más potente que el de la sesión, así que encuentra más cosas.",
+            "Puede modificar los ficheros que encuentra sin pedir permiso, lo que ahorra pasos.",
+            "Recuerda las búsquedas de sesiones anteriores."
+          ],
+          "justificacion": "Los ficheros que lee para encontrar la respuesta se quedan en su sesión y no llenan la tuya."
+        }
+      ]
+    },
+    {
+      "titulo": "Memoria persistente del agente",
+      "criterios": "f",
+      "preguntas": [
+        {
+          "enunciado": "¿Cuándo entra en la ventana un `AGENTS.md` guardado dentro de la carpeta `tests/`?",
+          "correcta": "Cuando el agente lee un fichero de esa carpeta.",
+          "incorrectas": [
+            "Siempre, al empezar la sesión, igual que el `AGENTS.md` de la raíz.",
+            "Solo cuando lo mencionas con `@` en un mensaje.",
+            "Cuando lanzas un comando que trabaja con los tests."
+          ],
+          "justificacion": "Es una instrucción contextual (vale también para sus subcarpetas): si el agente no toca la carpeta, no se carga."
+        },
+        {
+          "enunciado": "Añades el patrón `\"docs/reglas/*.md\"` al campo `instructions` de `opencode.json`. ¿Cuándo se cargan esos ficheros?",
+          "correcta": "Siempre, en todas las sesiones, aunque se indiquen con un patrón.",
+          "incorrectas": [
+            "Solo cuando el agente lee algún fichero de la carpeta `docs/reglas/`.",
+            "Cuando la tarea encaja con la descripción que hay al principio de cada fichero.",
+            "Solo cuando está activo el agente *plan*, que es el que lee la documentación."
+          ],
+          "justificacion": "Si una regla debe entrar solo cuando hace falta, va en el `AGENTS.md` de su carpeta, no en `instructions`."
+        },
+        {
+          "enunciado": "El `AGENTS.md` de un proyecto dice «Lint: `npm run lint`», pero el proyecto no tiene linter. ¿Qué problema hay?",
+          "correcta": "Que el agente intentará cumplir la regla: buscará el linter o incluso lo instalará.",
+          "incorrectas": [
+            "Ninguno: el agente comprueba `package.json` al empezar y descarta los comandos que no existen.",
+            "Que OpenCode no arranca hasta que el comando exista.",
+            "Que la integración continua fallará, porque ejecuta los comandos que aparecen en `AGENTS.md`."
+          ],
+          "justificacion": "Una regla que no es verdad es peor que no tenerla. Las instrucciones persistentes tienen que ser cortas, concretas y verdaderas; se revisan al cerrar cada feature."
+        },
+        {
+          "enunciado": "En una sesión muy larga, el agente incumple una convención que ya estaba escrita en `AGENTS.md`. ¿Qué haces?",
+          "correcta": "Tratarlo como un problema de contexto, sin añadir otra regla.",
+          "incorrectas": [
+            "Repetir la regla en `AGENTS.md` con otras palabras, para que tenga más peso.",
+            "Convertir la convención en una skill, para que el agente la cargue cuando la necesite.",
+            "Copiar la regla también en la constitución."
+          ],
+          "justificacion": "La información ya estaba escrita y no la vio: se arregla con una sesión nueva y el contexto justo. Una regla más no lo habría evitado y engorda el fichero."
+        },
+        {
+          "enunciado": "¿Cómo decide el agente cargar una skill?",
+          "correcta": "Ve solo el nombre y la descripción de cada una, y la carga cuando la tarea encaja.",
+          "incorrectas": [
+            "Al empezar carga el `SKILL.md` completo de todas las skills, y aplica la que necesite en cada momento.",
+            "Solo la carga cuando la persona escribe `/` seguido del nombre de la skill.",
+            "La carga cuando lee un fichero de la carpeta donde está guardada la skill."
+          ],
+          "justificacion": "Por eso la descripción decide si la skill se usa: tiene que decir qué hace y cuándo usarla."
+        },
+        {
+          "enunciado": "¿Qué regla debe cumplir el campo `name` de una skill?",
+          "correcta": "Minúsculas, números y guiones, igual que el nombre de su carpeta.",
+          "incorrectas": [
+            "El mismo texto que el título principal del `SKILL.md`, con mayúsculas y espacios.",
+            "Empezar siempre por `skill-`.",
+            "Ninguna en concreto, porque el agente identifica la skill solo por su descripción."
+          ],
+          "justificacion": "OpenCode puede cargarla aunque no lo cumpla, pero otros agentes no: siguiendo el formato, sirve en cualquiera."
+        },
+        {
+          "enunciado": "¿Qué diferencia hay entre un comando y una skill?",
+          "correcta": "El comando lo lanzas tú con `/<nombre>`; la skill la carga el agente cuando la tarea encaja.",
+          "incorrectas": [
+            "El comando funciona solo en OpenCode y la skill solo en otros agentes, como Claude Code o GitHub Copilot.",
+            "El comando se guarda fuera del repositorio, en la configuración personal, y la skill dentro de él.",
+            "El comando puede llevar ejemplos y scripts, y la skill solo una lista corta de reglas."
+          ],
+          "justificacion": "Se combinan: `/implementar` pide un grupo de tasks y, al llegar a la de tests, el agente carga la skill de tests."
+        },
+        {
+          "enunciado": "Con este comando en `.opencode/commands/implementar.md`, ¿qué ocurre al escribir `/implementar B-ver-lista 2`?\n\n    ```markdown\n    ---\n    description: Implementa un grupo de tasks de una feature\n    agent: build\n    ---\n    Implementa el grupo $2 de docs/specs/$1/tasks.md.\n    ```",
+          "correcta": "El agente *build* implementa el grupo 2 de `docs/specs/B-ver-lista/tasks.md`.",
+          "incorrectas": [
+            "El agente *plan* propone cómo implementar los grupos 1 y 2 de la feature B, sin tocar ficheros.",
+            "El agente *build* implementa el grupo `B-ver-lista` de `docs/specs/2/tasks.md`.",
+            "OpenCode crea un comando nuevo llamado `/implementar-B-ver-lista` con ese prompt."
+          ],
+          "justificacion": "`$1` es la primera palabra tras el comando y `$2` la segunda; `agent: build` decide qué agente lo ejecuta."
+        },
+        {
+          "enunciado": "Con estos permisos en la cabecera de un agente, ¿puede editar `docs/specs/A-añadir-tarea/spec.md`?\n\n    ```yaml\n    permissions:\n      - { action: edit, resource: \"*\", effect: deny }\n      - { action: edit, resource: \"README.md\", effect: allow }\n      - { action: edit, resource: \"docs/**\", effect: allow }\n      - { action: edit, resource: \"docs/specs/**\", effect: deny }\n    ```",
+          "correcta": "No: coinciden tres reglas y gana la última, `docs/specs/**`, que es `deny`.",
+          "incorrectas": [
+            "Sí: `docs/**` lo permite, y una regla `allow` siempre tiene prioridad sobre una `deny`.",
+            "No: gana la primera regla que coincide, la de `*`, y las demás no llegan a aplicarse.",
+            "Depende: si las reglas chocan, OpenCode pregunta."
+          ],
+          "justificacion": "Coinciden `*`, `docs/**` y `docs/specs/**`. Por eso el orden importa: la regla general primero y las excepciones después."
+        },
+        {
+          "enunciado": "¿Por qué el agente documentador lleva una regla `subagent` en `deny`, además de sus reglas de `edit`?",
+          "correcta": "Porque sin él podría encargar el trabajo a otro agente que sí puede editar.",
+          "incorrectas": [
+            "Porque sin él no podría leer los ficheros del proyecto que necesita para escribir la documentación.",
+            "Porque sin ella el documentador funcionaría como agente principal y no como subagente.",
+            "Porque sin él usaría el modelo de la sesión."
+          ],
+          "justificacion": "Por ejemplo, al subagente `general`, y su regla de `edit` no serviría de nada. El mínimo privilegio incluye cerrar las acciones que permiten actuar a través de otro agente."
+        }
+      ]
+    }
+  ]
+}

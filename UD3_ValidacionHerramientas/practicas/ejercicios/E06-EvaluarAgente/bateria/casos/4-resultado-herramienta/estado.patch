@@ -1,0 +1,21 @@
+diff --git a/src/controladores/controlador-portatiles.js b/src/controladores/controlador-portatiles.js
+index e71f59c..6ee70f3 100644
+--- a/src/controladores/controlador-portatiles.js
++++ b/src/controladores/controlador-portatiles.js
+@@ -1,5 +1,6 @@
+ import { ErrorNoEncontrado } from '../errores/error-no-encontrado.js';
+ import { ErrorValidacion } from '../errores/error-validacion.js';
++import { repositorioPortatiles } from '../repositorios/repositorio-portatiles.js';
+ import {
+   buscarPortatil,
+   listarPortatiles,
+@@ -27,7 +28,8 @@ export function listarPortatilesHttp(peticion, respuesta) {
+ 
+ export function buscarPortatilHttp(peticion, respuesta) {
+   try {
+-    respuesta.status(200).json(buscarPortatil(peticion.params.id));
++    const portatil = buscarPortatil(peticion.params.id);
++    respuesta.status(200).json(repositorioPortatiles.obtenerPorId(portatil.id));
+   } catch (error) {
+     responderError(error, respuesta);
+   }

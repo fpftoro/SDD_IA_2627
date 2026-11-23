@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Lista de tareas</title>
+    <style>
+      .hecha span {
+        text-decoration: line-through;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Lista de tareas</h1>
+    <form id="form-tarea">
+      <input
+        id="texto-tarea"
+        aria-label="Texto de la tarea"
+        autocomplete="off"
+      />
+      <button type="submit">Añadir</button>
+    </form>
+    <p id="mensaje-error" role="alert"></p>
+    <p id="sin-tareas" hidden>Todavía no hay tareas</p>
+    <ul id="lista-tareas"></ul>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,3 @@
+La versión 1.1 de la spec de A (docs/specs/A-consultar-portatiles/spec.md)
+cambia el mensaje de EC-02. Los tests ya están actualizados. Cambia el
+código y deja npm test en verde.

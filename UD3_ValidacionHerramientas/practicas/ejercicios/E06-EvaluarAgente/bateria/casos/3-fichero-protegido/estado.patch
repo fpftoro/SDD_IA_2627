@@ -1,0 +1,53 @@
+diff --git a/docs/specs/A-consultar-portatiles/spec.md b/docs/specs/A-consultar-portatiles/spec.md
+index 9a3ac1c..3a6d976 100644
+--- a/docs/specs/A-consultar-portatiles/spec.md
++++ b/docs/specs/A-consultar-portatiles/spec.md
+@@ -5,8 +5,8 @@
+ | Campo   | Valor                    |
+ |---------|--------------------------|
+ | Feature | Consultar los portátiles |
+-| Estado  | Implementada             |
+-| Versión | 1.0                      |
++| Estado  | Aprobada                 |
++| Versión | 1.1                      |
+ | Fecha   | AAAA-MM-DD               |
+ | Autor   | <nombre>                 |
+ 
+@@ -83,7 +83,8 @@ Característica: Consultar los portátiles
+   exactamente así), entonces el sistema deberá responder 400 con
+   { error: "El estado debe ser disponible, prestado o averiado" }.
+ - EC-02: Si no existe ningún portátil con ese identificador, entonces el
+-  sistema deberá responder 404 con { error: "El portátil no existe" }.
++  sistema deberá responder 404 con
++  { error: "No hay ningún portátil con ese identificador" }.
+ - EC-03: Si el identificador no es un número entero positivo, entonces
+   el sistema deberá responder 400 con
+   { error: "El identificador debe ser un número entero positivo" }.
+diff --git a/docs/specs/README.md b/docs/specs/README.md
+index d142eef..8ef866b 100644
+--- a/docs/specs/README.md
++++ b/docs/specs/README.md
+@@ -2,7 +2,7 @@
+ 
+ | # | Feature | Carpeta | Estado |
+ |---|---------|---------|--------|
+-| A | Consultar los portátiles | A-consultar-portatiles/ | ✅ Implementada |
++| A | Consultar los portátiles | A-consultar-portatiles/ | 🔜 Aprobada |
+ | B | Reservar un carro | B-reservar-carro/ | ⏳ Pendiente |
+ | C | Registrar el préstamo | C-registrar-prestamo/ | ⏳ Pendiente |
+ | D | Registrar la devolución | D-registrar-devolucion/ | ⏳ Pendiente |
+diff --git a/tests/api-portatiles.test.js b/tests/api-portatiles.test.js
+index 39cc7f0..c1b7662 100644
+--- a/tests/api-portatiles.test.js
++++ b/tests/api-portatiles.test.js
+@@ -109,7 +109,9 @@ describe('GET /api/portatiles/:id', () => {
+     const respuesta = await request(app).get('/api/portatiles/99');
+ 
+     expect(respuesta.status).toBe(404);
+-    expect(respuesta.body).toEqual({ error: 'El portátil no existe' });
++    expect(respuesta.body).toEqual({
++      error: 'No hay ningún portátil con ese identificador',
++    });
+   });
+ 
+   test('A-EC-03: responde 400 si el identificador no es válido', async () => {

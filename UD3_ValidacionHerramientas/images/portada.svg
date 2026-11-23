@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400" role="img" aria-labelledby="t d">
+  <title id="t">UD3 · Validación, pruebas y herramientas</title>
+  <desc id="d">Portada de la unidad 3 del curso Desarrollo guiado por especificaciones con IA: cada identificador de la spec enlazado con el test que lo comprueba, uno de ellos sin test (spec drift), y debajo los quality gates (lint, tests y cobertura) que hay que pasar antes de llegar a main.</desc>
+  <defs>
+    <linearGradient id="fondo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d2b2f"/>
+      <stop offset="1" stop-color="#16213e"/>
+    </linearGradient>
+    <linearGradient id="acento" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2ee6a6"/>
+      <stop offset="1" stop-color="#4cc9f0"/>
+    </linearGradient>
+    <marker id="flecha" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#2ee6a6"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="400" fill="url(#fondo)"/>
+  <!-- Retícula decorativa -->
+  <g stroke="#ffffff" stroke-opacity="0.05">
+    <path d="M0 50H1200M0 100H1200M0 150H1200M0 200H1200M0 250H1200M0 300H1200M0 350H1200"/>
+    <path d="M100 0V400M200 0V400M300 0V400M400 0V400M500 0V400M600 0V400M700 0V400M800 0V400M900 0V400M1000 0V400M1100 0V400"/>
+  </g>
+
+  <!-- Texto -->
+  <g font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+    <text x="60" y="80" fill="#b9dcd8" font-size="20" letter-spacing="3">DESARROLLO GUIADO POR ESPECIFICACIONES CON IA</text>
+    <rect x="60" y="100" width="120" height="6" rx="3" fill="url(#acento)"/>
+    <text x="60" y="185" fill="#ffffff" font-size="64" font-weight="700">UD3</text>
+    <text x="60" y="240" fill="#ffffff" font-size="34" font-weight="600">Validación, pruebas</text>
+    <text x="60" y="282" fill="#ffffff" font-size="34" font-weight="600">y herramientas</text>
+    <text x="60" y="340" fill="#2ee6a6" font-size="22" font-weight="600">OA3 · Comprobar que el código cumple la spec</text>
+  </g>
+
+  <g font-family="Consolas, 'Courier New', monospace" font-size="14">
+    <!-- Spec -->
+    <g transform="translate(640,100)">
+      <rect width="150" height="178" rx="10" fill="#ffffff" fill-opacity="0.08" stroke="#b9dcd8" stroke-width="2"/>
+      <rect width="150" height="30" rx="10" fill="#ffffff" fill-opacity="0.12"/>
+      <text x="75" y="20" text-anchor="middle" fill="#b9dcd8">spec.md</text>
+      <text x="18" y="58" fill="#4cc9f0">RF-01</text>
+      <text x="18" y="92" fill="#ffffff">AC-03</text>
+      <text x="18" y="126" fill="#ffffff">EC-01</text>
+      <text x="18" y="160" fill="#ffffff">EC-05</text>
+    </g>
+    <!-- Tests -->
+    <g transform="translate(990,100)">
+      <rect width="160" height="178" rx="10" fill="#000000" fill-opacity="0.35" stroke="#4cc9f0" stroke-width="2"/>
+      <rect width="160" height="30" rx="10" fill="#ffffff" fill-opacity="0.12"/>
+      <text x="80" y="20" text-anchor="middle" fill="#b9dcd8">tests/</text>
+      <text x="18" y="58" fill="#2ee6a6">✓ RF-01</text>
+      <text x="18" y="92" fill="#2ee6a6">✓ AC-03</text>
+      <text x="18" y="126" fill="#2ee6a6">✓ EC-01</text>
+      <text x="18" y="160" fill="#ff7b72">✗ sin test</text>
+    </g>
+  </g>
+
+  <!-- Trazas spec → test -->
+  <g stroke="#2ee6a6" stroke-width="2" fill="none" marker-end="url(#flecha)">
+    <path d="M796 153H984"/>
+    <path d="M796 187H984"/>
+    <path d="M796 221H984"/>
+  </g>
+  <path d="M796 255H984" stroke="#ff7b72" stroke-width="2" stroke-dasharray="6 6" fill="none"/>
+  <g fill="#16213e" stroke-width="2">
+    <circle cx="872" cy="153" r="11" stroke="#febc2e"/>
+    <circle cx="872" cy="187" r="11" stroke="#febc2e"/>
+    <circle cx="872" cy="221" r="11" stroke="#febc2e"/>
+    <circle cx="872" cy="255" r="11" stroke="#ff7b72"/>
+  </g>
+  <g fill="none" stroke="#febc2e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M867 153l3.5 4 6-7"/>
+    <path d="M867 187l3.5 4 6-7"/>
+    <path d="M867 221l3.5 4 6-7"/>
+  </g>
+  <path d="M867 250l10 10M877 250l-10 10" stroke="#ff7b72" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="872" y="288" text-anchor="middle" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" fill="#ff7b72">spec drift</text>
+
+  <!-- Quality gates -->
+  <g font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600">
+    <g transform="translate(640,308)">
+      <rect width="128" height="40" rx="20" fill="#2ee6a6" fill-opacity="0.14" stroke="#2ee6a6" stroke-width="2"/>
+      <text x="64" y="26" text-anchor="middle" fill="#ffffff">✓ lint</text>
+    </g>
+    <g transform="translate(800,308)">
+      <rect width="128" height="40" rx="20" fill="#2ee6a6" fill-opacity="0.14" stroke="#2ee6a6" stroke-width="2"/>
+      <text x="64" y="26" text-anchor="middle" fill="#ffffff">✓ tests</text>
+    </g>
+    <g transform="translate(960,308)">
+      <rect width="128" height="40" rx="20" fill="#2ee6a6" fill-opacity="0.14" stroke="#2ee6a6" stroke-width="2"/>
+      <text x="64" y="26" text-anchor="middle" fill="#ffffff">✓ cobertura</text>
+    </g>
+    <text x="1130" y="334" text-anchor="middle" fill="#4cc9f0" font-family="Consolas, 'Courier New', monospace" font-weight="400">main</text>
+  </g>
+  <g stroke="#2ee6a6" stroke-width="2.5" fill="none" marker-end="url(#flecha)">
+    <path d="M770 328H796"/>
+    <path d="M930 328H956"/>
+    <path d="M1090 328H1106"/>
+  </g>
+  <text x="640" y="382" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" fill="#b9dcd8">cada requisito, con su prueba; cada cambio, por los gates</text>
+</svg>

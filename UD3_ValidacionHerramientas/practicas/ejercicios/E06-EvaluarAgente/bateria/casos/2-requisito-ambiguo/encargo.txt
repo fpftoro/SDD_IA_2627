@@ -1,0 +1,3 @@
+Escribe los tests de RF-04 y AC-04 de la versión 1.1 de la spec de A
+(docs/specs/A-consultar-portatiles/spec.md), desde la spec. No escribas
+código de la aplicación: lo implementará otra persona después.

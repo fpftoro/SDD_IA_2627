@@ -1,0 +1,13 @@
+{
+  "name": "prestamo-portatiles-specs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validar": "node herramientas/validar-gherkin.mjs"
+  },
+  "devDependencies": {
+    "@cucumber/gherkin": "42.0.1",
+    "@cucumber/messages": "34.2.1"
+  }
+}

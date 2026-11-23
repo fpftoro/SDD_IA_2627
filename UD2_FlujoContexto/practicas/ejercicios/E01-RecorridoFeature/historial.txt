@@ -1,0 +1,77 @@
+# Historial de la feature C
+
+Repositorio del préstamo de portátiles, desde que se fusionó la feature B.
+El primer bloque es el grafo de las ramas; el segundo, los ficheros que
+cambia cada commit (A: añadido, M: modificado). Las fusiones no cambian
+ficheros por sí mismas.
+
+$ git log --graph --oneline --all
+
+* 6ae1357 (HEAD -> main) Arreglo rápido: la fecha límite pasa a las 15:00
+*   1458a69 Fusiona lo que faltaba de la feature C
+|\  
+| * dae724b (feature/C-registrar-prestamo) Spec de la feature D (aprobada)
+| * 24a5c43 Feature C: T-09 y T-10, página de préstamos
+* | f0c2a4c Fusiona la feature C: registrar el préstamo
+|\| 
+| * 1166d72 Feature C: tests del servicio y de la API
+| * ba1d3a1 Feature C: T-01 a T-08, préstamo completo
+| * 34cbd67 Tasks de la feature C (aprobadas)
+| * 9a38384 Plan de la feature C (aprobado)
+* | 23c6eca Spec de la feature C 1.1: un solo préstamo abierto por profesor (aprobada)
+|/  
+* 1c81104 Feature C: servicio de préstamos
+* 6b0b707 Spec de la feature C (aprobada)
+* 8c8922c Spec de la feature C (borrador)
+* 1010573 Replanificación tras la feature B: C antes que D en el índice
+* fccdfcc Fusiona la feature B: reservar un carro
+
+$ git log --reverse --topo-order --format="%h %s" --name-status --all
+
+1010573 Replanificación tras la feature B: C antes que D en el índice
+M	docs/specs/README.md
+
+8c8922c Spec de la feature C (borrador)
+A	docs/specs/C-registrar-prestamo/spec.md
+
+6b0b707 Spec de la feature C (aprobada)
+M	docs/specs/C-registrar-prestamo/spec.md
+M	docs/specs/README.md
+
+1c81104 Feature C: servicio de préstamos
+A	src/servicios/servicio-prestamos.js
+
+23c6eca Spec de la feature C 1.1: un solo préstamo abierto por profesor (aprobada)
+M	docs/specs/C-registrar-prestamo/spec.md
+
+9a38384 Plan de la feature C (aprobado)
+A	docs/specs/C-registrar-prestamo/plan.md
+
+34cbd67 Tasks de la feature C (aprobadas)
+A	docs/specs/C-registrar-prestamo/tasks.md
+
+ba1d3a1 Feature C: T-01 a T-08, préstamo completo
+M	docs/specs/C-registrar-prestamo/tasks.md
+A	src/controladores/controlador-prestamos.js
+A	src/repositorios/repositorio-prestamos.js
+A	src/rutas/prestamos.js
+M	src/servicios/servicio-prestamos.js
+
+1166d72 Feature C: tests del servicio y de la API
+A	tests/api-prestamos.test.js
+A	tests/servicio-prestamos.test.js
+
+f0c2a4c Fusiona la feature C: registrar el préstamo
+
+24a5c43 Feature C: T-09 y T-10, página de préstamos
+M	docs/specs/C-registrar-prestamo/tasks.md
+A	public/prestamos.html
+
+dae724b Spec de la feature D (aprobada)
+A	docs/specs/D-registrar-devolucion/spec.md
+M	docs/specs/README.md
+
+1458a69 Fusiona lo que faltaba de la feature C
+
+6ae1357 Arreglo rápido: la fecha límite pasa a las 15:00
+M	src/servicios/servicio-prestamos.js

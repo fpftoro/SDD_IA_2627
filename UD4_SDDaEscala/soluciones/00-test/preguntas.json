@@ -1,0 +1,431 @@
+{
+  "titulo": "SDD a escala: varios agentes, equipos y proyectos reales",
+  "oa": "OA4",
+  "semilla": 2026,
+  "bloques": [
+    {
+      "titulo": "Varios agentes: orquestación, roles y trabajo en paralelo",
+      "criterios": "a, b",
+      "preguntas": [
+        {
+          "enunciado": "¿Cuándo compensa repartir el trabajo entre varios agentes en lugar de usar uno solo?",
+          "correcta": "Cuando cada agente resuelve un problema concreto: contexto, permisos, revisión independiente, coste o paralelismo.",
+          "incorrectas": [
+            "Siempre que la feature sea grande, porque varios agentes producen más código por hora y eso acelera cualquier trabajo.",
+            "Cuando el equipo tiene varios modelos contratados, para aprovechar todos los que pague aunque no aporten nada distinto.",
+            "Cuando hay más de tres tasks pendientes, porque a partir de ese número un solo agente pierde el hilo del proyecto."
+          ],
+          "justificacion": "Repartir añade coste de coordinación; solo se justifica si cada agente aporta algo que uno solo no da (tema 1, apartado 1.1)."
+        },
+        {
+          "enunciado": "¿Por qué, con agentes que no son deterministas, se prefiere la orquestación a la coreografía?",
+          "correcta": "Porque un coordinador comprueba cada resultado antes de seguir, en vez de que cada agente reaccione por su cuenta.",
+          "incorrectas": [
+            "Porque la coreografía necesita un servidor de eventos propio que los agentes de OpenCode no pueden utilizar en el aula.",
+            "Porque la orquestación obliga a que todos los agentes compartan el mismo modelo y el mismo contexto durante la sesión.",
+            "Porque en la coreografía los subagentes no pueden devolver ningún mensaje al agente principal que los ha invocado."
+          ],
+          "justificacion": "Con agentes que pueden equivocarse, alguien tiene que comprobar cada paso; en el curso, ese coordinador eres tú."
+        },
+        {
+          "enunciado": "¿Qué topología de agentes casi nunca compensa?",
+          "correcta": "La red, donde cualquier agente habla con cualquiera: nadie comprueba el conjunto y los errores se propagan.",
+          "incorrectas": [
+            "La cadena, porque cada agente depende del anterior y no puede empezar su trabajo hasta que el otro termina el suyo.",
+            "La jerárquica, porque obliga a que un orquestador conozca todas las tareas antes de repartirlas entre los agentes.",
+            "Ninguna: las tres compensan siempre que el equipo tenga más de dos agentes configurados en el proyecto."
+          ],
+          "justificacion": "La cadena (el flujo SDD) y la jerárquica tienen quien coordine; en la red nadie lo hace."
+        },
+        {
+          "enunciado": "En los roles de un sistema multiagente, ¿qué hace el Craftsman?",
+          "correcta": "Cuida la calidad del conjunto y de las primitivas (código, AGENTS.md, comandos) sin cambiar el comportamiento.",
+          "incorrectas": [
+            "Escribe la spec y el plan de cada feature y deja la implementación a los demás agentes para no mezclar decisiones.",
+            "Implementa las tasks contra la spec y no avanza al grupo siguiente hasta que los tests del grupo actual pasan.",
+            "Aprueba los cambios que llegan a main cuando la integración continua está en verde y los propietarios han revisado."
+          ],
+          "justificacion": "Architect especifica y planifica, Builder implementa y Craftsman mira el conjunto; aprobar es siempre de una persona."
+        },
+        {
+          "enunciado": "¿Qué contexto tiene un subagente de OpenCode cuando empieza a trabajar?",
+          "correcta": "Solo el encargo que le escribe el agente principal: empieza con la ventana vacía y devuelve un único mensaje.",
+          "incorrectas": [
+            "Toda la conversación del agente principal hasta ese momento, resumida automáticamente por OpenCode al crearlo.",
+            "El contenido de AGENTS.md y de la última sesión que tuvo ese mismo subagente en el mismo proyecto, si existe alguna.",
+            "Los ficheros que el agente principal tenía abiertos, pero no las instrucciones que le dio la persona al empezar."
+          ],
+          "justificacion": "Por eso el encargo (el handoff) debe llevar objetivo, documentos, límites y qué devolver."
+        },
+        {
+          "enunciado": "Un agente tiene este bloque de permisos. ¿Puede acabar modificando ficheros?\n\n    permissions:\n      - { action: edit, resource: \"*\", effect: deny }\n      - { action: subagent, resource: \"*\", effect: allow }",
+          "correcta": "Sí: puede encargar trabajo al subagente general, que sí puede editar, y por esa vía cambiar ficheros del proyecto.",
+          "incorrectas": [
+            "No: con edit en deny ningún agente que dependa de él puede cambiar un fichero del proyecto bajo ningún concepto.",
+            "Solo si la persona lo aprueba en cada ocasión, porque subagent hereda siempre la regla de shell que tenga configurada.",
+            "No, porque subagent solo permite buscar información en el repositorio y nunca ejecuta cambios sobre los ficheros."
+          ],
+          "justificacion": "Los permisos de un agente valen tanto como los del agente más poderoso al que puede llamar: hay que cerrar subagent."
+        },
+        {
+          "enunciado": "¿Qué problema evita un worktree de Git cuando dos agentes trabajan a la vez?",
+          "correcta": "Que se pisen mientras trabajan, porque cada uno tiene su carpeta y su rama; no evita los choques al juntar el trabajo.",
+          "incorrectas": [
+            "Los conflictos de fusión, porque Git los resuelve solo cuando las ramas están en carpetas distintas del disco.",
+            "Que los dos agentes decidan lo mismo en sus planes, porque cada uno ve únicamente los ficheros de su carpeta.",
+            "La necesidad de comparar los planes antes de implementar, porque cada rama es independiente de todas las demás."
+          ],
+          "justificacion": "El choque aparece al fusionar, y también cuando dos planes deciden lo mismo por separado."
+        },
+        {
+          "enunciado": "¿Qué se mira para decidir si dos features pueden hacerse en paralelo?",
+          "correcta": "Que no toquen los mismos ficheros ni decidan lo mismo, algo que se comprueba comparando sus planes antes de implementar.",
+          "incorrectas": [
+            "Que tengan el mismo número de tasks, para que los dos agentes terminen más o menos a la vez y se fusionen juntas.",
+            "Que las haga el mismo agente con modelos distintos, para repartir el coste de los tokens entre varias cuentas.",
+            "Que ninguna dependa de la constitución, porque esta solo admite que una feature a la vez la tenga como referencia."
+          ],
+          "justificacion": "En el ejemplo de C y D, el riesgo principal no fue un conflicto de Git, sino dos agentes decidiendo lo mismo por separado."
+        },
+        {
+          "enunciado": "¿Qué debe llevar un buen handoff y qué indica que necesite explicar una decisión?",
+          "correcta": "Objetivo, documentos, estado, límites y qué devolver; si necesita explicar una decisión, esa decisión falta en el plan.",
+          "incorrectas": [
+            "La conversación completa con la persona, porque el subagente no tiene ninguna otra fuente de contexto para trabajar.",
+            "El código que ya está escrito, para que el siguiente agente no tenga que abrir ningún fichero del proyecto por su cuenta.",
+            "Solo la lista de tasks pendientes, porque el objetivo y los límites ya aparecen escritos en la constitución del proyecto."
+          ],
+          "justificacion": "En SDD el handoff casi no tiene contenido propio: apunta a la spec, al plan y a las tasks."
+        },
+        {
+          "enunciado": "¿Qué garantizan los revisores automáticos en un sistema con varios agentes?",
+          "correcta": "Suben el nivel mínimo de cada cambio, pero no garantizan la calidad del diseño ni deciden qué trabajo hacía falta.",
+          "incorrectas": [
+            "Que ningún cambio llegue a main con errores, siempre que el revisor se ejecute con el modelo más capaz disponible.",
+            "Que las decisiones de arquitectura sean correctas, porque el revisor ve a la vez todos los planes de las features abiertas.",
+            "Que no haga falta que ninguna persona lea los cambios que han pasado su revisión antes de fusionarlos en la rama principal."
+          ],
+          "justificacion": "Siguen necesitándose las personas en los puntos críticos y el mínimo privilegio en cada agente."
+        }
+      ]
+    },
+    {
+      "titulo": "SDD en equipo",
+      "criterios": "c",
+      "preguntas": [
+        {
+          "enunciado": "En un equipo, ¿qué significa que la spec sea un contrato entre personas?",
+          "correcta": "Producto, desarrollo y calidad acuerdan en ella qué se construye, y los malentendidos salen al revisarla.",
+          "incorrectas": [
+            "Que cada persona guarda su propia copia de la spec y las compara todas al final de la feature antes de la demostración.",
+            "Que solo el agente puede modificarla, para que ninguna persona pueda cambiar el acuerdo por su cuenta durante el desarrollo.",
+            "Que la spec se firma al terminar la feature y a partir de entonces no puede cambiarse más, ni siquiera con una nueva versión."
+          ],
+          "justificacion": "El punto de control 1 es donde se aclaran las dudas, antes de que haya plan ni código."
+        },
+        {
+          "enunciado": "¿Quién aprueba cada punto de control en el reparto de roles del curso?",
+          "correcta": "Producto la spec, arquitectura el plan, desarrollo tasks y ciclos; calidad añade edge cases y revisa las tasks de tests.",
+          "incorrectas": [
+            "Arquitectura aprueba todos los puntos de control, porque es quien mejor conoce el código y las decisiones técnicas del proyecto.",
+            "Desarrollo aprueba la spec y el plan, y producto solo revisa el resultado final cuando se hace la demostración a los usuarios.",
+            "Calidad aprueba la fusión de cada feature y el resto de roles se limita a comentar en las pull requests sin aprobar nada."
+          ],
+          "justificacion": "Nadie aprueba en todos los puntos de control y nadie está ausente de todos."
+        },
+        {
+          "enunciado": "En un CODEOWNERS, un fichero encaja con dos líneas. ¿Qué propietarios cuentan?",
+          "correcta": "Los de la última línea que coincide; por eso la línea general va primero y las excepciones después.",
+          "incorrectas": [
+            "Los de la primera línea que coincide, y por eso las excepciones se escriben siempre antes que la línea general.",
+            "Los de las dos líneas a la vez, y deben aprobar todos ellos para que la pull request pueda llegar a fusionarse.",
+            "Ninguno de los dos, porque GitHub exige que cada fichero encaje con una sola línea y avisa del error al subirlo."
+          ],
+          "justificacion": "Es la misma regla que los permisos de OpenCode: gana la última que coincide."
+        },
+        {
+          "enunciado": "Una línea de CODEOWNERS tiene como propietarios a producto y a calidad. ¿Qué exige GitHub para fusionar?",
+          "correcta": "Basta con la aprobación de uno de los dos; si se quiere que revisen ambos, hay que acordarlo en el equipo.",
+          "incorrectas": [
+            "La aprobación de los dos, porque GitHub exige que todos los propietarios de la línea aprueben antes de fusionar.",
+            "La aprobación del primero de la lista, que actúa como responsable de la línea y puede delegar en el segundo.",
+            "Ninguna aprobación, porque CODEOWNERS solo sirve para pedir la revisión y nunca para condicionar una fusión."
+          ],
+          "justificacion": "Para reforzarlo se usa una casilla en la plantilla de la PR de la spec, que marca calidad."
+        },
+        {
+          "enunciado": "¿Qué añade una regla de protección de la rama main sobre las pull requests?",
+          "correcta": "Puede exigir que nadie suba directamente, que la CI esté en verde y que aprueben los propietarios del código de cada fichero.",
+          "incorrectas": [
+            "Convierte la rama main en solo lectura para todo el equipo, incluida la persona que se encarga de las fusiones.",
+            "Sustituye a CODEOWNERS, porque por sí sola decide quién debe revisar cada fichero según su historial de cambios.",
+            "Impide que se creen ramas nuevas a partir de main mientras exista cualquier pull request pendiente de revisar."
+          ],
+          "justificacion": "La protección hace obligatoria la revisión, pero no la hace: aprobar es un acto y revisar es un trabajo."
+        },
+        {
+          "enunciado": "¿Por qué un cambio en la constitución va en su propia PR, con análisis de impacto y aviso al equipo?",
+          "correcta": "Porque entra en todas las sesiones de todos los agentes y puede dejar código o planes en curso incumpliéndola.",
+          "incorrectas": [
+            "Porque la constitución solo puede cambiarla el agente arquitecto, que necesita un permiso expreso de la persona.",
+            "Porque Git no permite modificar el mismo fichero en dos ramas a la vez sin perder el historial de una de ellas.",
+            "Porque cada cambio de la constitución obliga a rehacer desde cero todas las specs que ya estaban aprobadas."
+          ],
+          "justificacion": "Mezclado con una feature, el historial no mostraría cuándo cambió cada principio."
+        },
+        {
+          "enunciado": "Se repite en tres planes que el agente vuelve a decidir cómo se formatean las fechas de las respuestas. ¿Dónde se gobierna esa decisión?",
+          "correcta": "En la constitución, con su PR propia, porque se repite en varios planes y vale para todo el proyecto.",
+          "incorrectas": [
+            "En la spec de la siguiente feature, que la recoge como un requisito más junto a los demás de esa funcionalidad.",
+            "En la configuración personal de cada persona, para no obligar al resto del equipo a seguir una convención común.",
+            "En ningún sitio: se deja que cada plan decida lo que le convenga y se corrige en la revisión de cada pull request."
+          ],
+          "justificacion": "Una decisión de una sola feature va en su plan; una preferencia personal, en ~/.config/opencode/."
+        },
+        {
+          "enunciado": "¿Cómo debe plantearse la adopción de SDD en un equipo?",
+          "correcta": "Por etapas que se superan por hitos (piloto, extensión, práctica habitual), con apoyo visible y sin esperar a que todo sea perfecto.",
+          "incorrectas": [
+            "De golpe para todo el equipo y con todos los artefactos desde el primer día, para que no existan excepciones.",
+            "Instalando una herramienta de SDD, porque es la herramienta la que consigue que se escriban buenas specs.",
+            "Esperando a tener unas normas internas completas sobre el uso de agentes antes de probar nada con ellos."
+          ],
+          "justificacion": "La adopción de golpe suele fracasar: la fricción inicial hace que el equipo abandone antes de ver los beneficios."
+        },
+        {
+          "enunciado": "Al incorporar a una persona nueva, el agente no encuentra la respuesta a varias de sus preguntas en ningún documento. ¿Qué se hace?",
+          "correcta": "Cada pregunta sin respuesta escrita es un hueco: se escribe la respuesta donde corresponda, con una PR pequeña.",
+          "incorrectas": [
+            "Se explica de palabra a la persona nueva y se deja apuntado en el chat del equipo por si alguien más lo necesita.",
+            "Se amplía el prompt de la persona nueva con esa explicación para que el agente la tenga en cada una de sus sesiones.",
+            "Se deja sin escribir, porque el conocimiento del proyecto se transmite mejor hablando que leyendo documentos."
+          ],
+          "justificacion": "Los documentos de SDD sustituyen al conocimiento tribal; si algo solo está en una cabeza, hay que escribirlo."
+        },
+        {
+          "enunciado": "¿Qué relación tiene el Reglamento europeo de inteligencia artificial con SDD?",
+          "correcta": "Regula los sistemas de IA, no programar con IA; SDD no basta, pero sus artefactos sirven de evidencia.",
+          "incorrectas": [
+            "Obliga a usar SDD en cualquier proyecto que se programe con un agente de IA, sea cual sea su tamaño o su uso.",
+            "Prohíbe que un agente de IA escriba código que luego se utilice dentro de un centro educativo o de una empresa.",
+            "No tiene ninguna relación con SDD, porque solo afecta a los modelos de lenguaje y no al software que se construye."
+          ],
+          "justificacion": "Se consulta siempre la versión oficial vigente; el historial de Git sirve como registro de decisiones."
+        }
+      ]
+    },
+    {
+      "titulo": "Casos prácticos: proyectos nuevos y código existente",
+      "criterios": "d",
+      "preguntas": [
+        {
+          "enunciado": "¿Qué cambia respecto a la constitución al empezar un proyecto nuevo y al trabajar sobre código existente?",
+          "correcta": "En un proyecto nuevo se escribe antes de la primera feature; en código existente, describe primero el presente.",
+          "incorrectas": [
+            "En código existente se copia la de un proyecto parecido, para no tener que describir lo que ya hace el código actual.",
+            "En un proyecto nuevo se omite hasta que haya tres features terminadas, para saber qué principios hacen realmente falta.",
+            "En los dos casos es igual: se escribe con los principios ideales del equipo y se exige que el código se ajuste a ellos."
+          ],
+          "justificacion": "Las incoherencias se marcan como [NECESITA DECISIÓN] y el equipo decide qué es norma y qué es deuda."
+        },
+        {
+          "enunciado": "¿Qué es especificar al tocar (spec-on-touch)?",
+          "correcta": "Escribir la spec del comportamiento actual de un módulo al tocarlo, priorizando por riesgo, no la de todo el proyecto.",
+          "incorrectas": [
+            "Escribir primero toda la documentación del proyecto y empezar a modificar el código solo cuando esté completa y aprobada.",
+            "Dejar que el agente documente cada fichero que lee mientras trabaja, sin que nadie revise lo que ha escrito.",
+            "Modificar la spec cada vez que alguien toca el código, aunque el comportamiento externo del módulo no cambie."
+          ],
+          "justificacion": "Así la spec nace donde hace falta y el esfuerzo no se pierde en código que nadie va a cambiar."
+        },
+        {
+          "enunciado": "¿De dónde sale el valor esperado de un test de caracterización?",
+          "correcta": "De ejecutar el código actual y ver qué devuelve en cada caso, no de lo que a quien lo prueba le parece razonable que devuelva.",
+          "incorrectas": [
+            "De la spec de la feature, que se escribe antes de mirar el código para que no influya en lo que se espera.",
+            "Del modelo, que predice el resultado leyendo el módulo y lo anota en el test sin necesidad de ejecutarlo.",
+            "De la documentación antigua del módulo, que se considera la fuente más fiable de lo que debería devolver."
+          ],
+          "justificacion": "El test fija lo que hace hoy el módulo, incluidos sus fallos, para poder refactorizar sin miedo."
+        },
+        {
+          "enunciado": "Al caracterizar un módulo, descubres que un campo desconocido en la petición provoca un 500. ¿Quién decide si es un fallo o un comportamiento?",
+          "correcta": "Producto, que sabe si alguien depende de ello; mientras se decide, el test lo fija tal cual está ahora en el código.",
+          "incorrectas": [
+            "El agente, que ha leído el código completo y es quien mejor conoce cuál era la intención original de quien lo escribió.",
+            "Arquitectura, porque se trata de una cuestión puramente técnica de gestión de errores dentro de la capa de servicios.",
+            "Nadie hace falta que lo decida: un 500 es siempre un fallo y se corrige durante la propia refactorización del módulo."
+          ],
+          "justificacion": "Las rarezas conservadas se dicen expresamente en la spec; las que son fallos, se anotan como fallos conocidos."
+        },
+        {
+          "enunciado": "¿Qué es una spec delta de OpenSpec?",
+          "correcta": "La descripción de solo lo que cambia sobre las specs vigentes, que se integra al archivar el cambio.",
+          "incorrectas": [
+            "Una copia completa de la spec de la feature con los cambios marcados en otro color para que se vean en la revisión.",
+            "Un fichero de tests que se ejecuta antes de aprobar una spec nueva para comprobar que no rompe a las anteriores.",
+            "El registro que genera OpenSpec con las diferencias línea a línea entre dos commits cualesquiera del repositorio."
+          ],
+          "justificacion": "Las specs vigentes están en openspec/specs/ y los cambios en curso, en openspec/changes/."
+        },
+        {
+          "enunciado": "Una delta usa esta sección para un requisito que ya existe en la spec vigente. ¿Qué error tiene?\n\n    ## ADDED Requirements\n    ### Requirement: Orden de los avisos",
+          "correcta": "Debería usar MODIFIED, copiando el requisito entero con todos sus escenarios, porque ADDED duplicaría uno que ya existe.",
+          "incorrectas": [
+            "Debería usar REMOVED, porque un requisito que cambia se elimina primero y se vuelve a escribir en un cambio posterior.",
+            "Ninguno: ADDED sirve para cualquier requisito y es OpenSpec quien decide al archivar si es nuevo o es una modificación.",
+            "Debería escribirse en español, porque los encabezados de una delta no admiten palabras en inglés en el formato estricto."
+          ],
+          "justificacion": "MODIFIED sustituye todo el bloque; por eso la validación estricta exige conservar los escenarios que la spec vigente aún tiene."
+        },
+        {
+          "enunciado": "¿Qué ocurre con la spec vigente cuando se archiva un cambio de OpenSpec?",
+          "correcta": "La delta se integra en ella y el cambio pasa a openspec/changes/archive/ con la fecha delante, ya como cambio terminado.",
+          "incorrectas": [
+            "La spec vigente se borra y se sustituye por la del cambio, que pasa a ser la única spec de esa capacidad.",
+            "No cambia: la spec vigente se actualiza a mano cuando se fusiona la rama del cambio en la rama principal.",
+            "Se crea una copia de la spec vigente con el número de versión del cambio, y la anterior se conserva intacta."
+          ],
+          "justificacion": "Así la spec vigente vuelve a decir la verdad después de cada cambio."
+        },
+        {
+          "enunciado": "¿Qué papel tienen los tests en una refactorización?",
+          "correcta": "El contrato de no regresión: en verde antes, intactos durante y en verde después; el cambio va en otro ciclo.",
+          "incorrectas": [
+            "Se reescriben a la vez que el código para que reflejen la estructura nueva de los módulos tras la reorganización.",
+            "Se desactivan mientras dura la refactorización y se reactivan al terminar, ya corregidos por la persona que revisa.",
+            "No hacen falta si el agente explica por escrito qué ha cambiado y por qué lo considera equivalente al código anterior."
+          ],
+          "justificacion": "Mezclar refactorización y cambio impide saber, si algo falla, a cuál de los dos se debe."
+        },
+        {
+          "enunciado": "¿Cómo se comprueba que una migración de stack conserva el comportamiento?",
+          "correcta": "Con tests de contrato que solo usan la API, en verde contra la versión actual y contra la nueva.",
+          "incorrectas": [
+            "Con los tests unitarios de cada módulo, adaptados uno a uno al nuevo framework antes de empezar la migración.",
+            "Con una revisión manual de la versión nueva, porque los tests siempre dependen del stack y no se pueden reutilizar.",
+            "Reescribiendo la spec desde cero para que el agente genere de nuevo todo el código con el nuevo stack elegido."
+          ],
+          "justificacion": "Los tests unitarios dependen del stack; el contrato público de la API no."
+        },
+        {
+          "enunciado": "Una feature nueva se añade a un proyecto con código heredado. ¿Qué añade su spec respecto a la de un proyecto nuevo?",
+          "correcta": "Una sección que dice cómo se integra con lo que ya existe: qué reutiliza, qué toca y qué no debe romper nunca.",
+          "incorrectas": [
+            "Una copia del código existente que la feature va a modificar, para que el agente lo vea sin tener que buscarlo.",
+            "Un listado de todos los ficheros del proyecto ordenados por antigüedad, para saber cuáles son más peligrosos.",
+            "Nada distinto: la integración la resuelve el plan y la spec no debe mencionar nunca el código que ya existe."
+          ],
+          "justificacion": "Encajar en lo que ya hay es el reto específico del código existente."
+        }
+      ]
+    },
+    {
+      "titulo": "Antipatrones del flujo",
+      "criterios": "e",
+      "preguntas": [
+        {
+          "enunciado": "¿Qué tres partes conviene nombrar siempre al describir un antipatrón del flujo?",
+          "correcta": "El síntoma que se ve, la causa que lo produce y la corrección concreta que evita que vuelva a repetirse más adelante.",
+          "incorrectas": [
+            "El responsable que lo cometió, la fecha en que apareció y el coste estimado de arreglarlo en horas de trabajo.",
+            "La fase donde ocurre, el agente que lo causó y el modelo concreto con el que se estaba trabajando en ese momento.",
+            "El nombre con el que se conoce, su definición técnica y la herramienta comercial que se utiliza para detectarlo."
+          ],
+          "justificacion": "Aprenderse los antipatrones sirve para diagnosticar, no para colgar etiquetas."
+        },
+        {
+          "enunciado": "Ante un síntoma raro, ¿por dónde empieza el diagnóstico en el flujo del curso?",
+          "correcta": "Preguntando si lo decía la spec aprobada; solo después se miran el plan, las tasks, la validación, el contexto y las personas.",
+          "incorrectas": [
+            "Mirando el código, porque es donde está el fallo y se puede corregir más rápido que en cualquier otro artefacto.",
+            "Cambiando el modelo del agente, porque el origen de los fallos suele estar en su capacidad para seguir instrucciones.",
+            "Rehaciendo la sesión con un prompt más largo y detallado, que es lo más barato de probar en cuanto algo sale mal."
+          ],
+          "justificacion": "El agente es el último sospechoso: si tiene información, spec clara y un test que lo comprueba, rara vez falla."
+        },
+        {
+          "enunciado": "¿Qué pregunta ayuda a saber si algo debe estar en la spec o en el plan?",
+          "correcta": "Si alguien lo notaría desde fuera: lo observable va en la spec y lo que se decide para construirlo, en el plan.",
+          "incorrectas": [
+            "Si es lo bastante largo como para necesitar un apartado propio dentro de la spec de la feature que se está escribiendo.",
+            "Si lo ha propuesto el agente o la persona de producto durante la entrevista inicial con la que empezó la especificación.",
+            "Si cabe en una sola línea, porque entonces no necesita explicación y puede ir directamente en el plan de la feature."
+          ],
+          "justificacion": "Un requisito que nombra una tabla o una función obliga al plan sin que nadie lo decida."
+        },
+        {
+          "enunciado": "Un desarrollador pide «implementa todas las tasks» y recibe un único commit de casi trescientas líneas con código y tests juntos. ¿Qué ha perdido?",
+          "correcta": "La revisión por ciclos, saber si los tests iban antes, un punto de retorno y la atención del agente al final.",
+          "incorrectas": [
+            "Nada importante: si los tests pasan, el resultado es el mismo que habría salido de hacer la implementación en ciclos cortos.",
+            "Solo la posibilidad de repartir el trabajo con subagentes, porque un commit de ese tamaño no puede dividirse entre varios.",
+            "El historial de la rama, porque Git no admite guardar commits de más de cien líneas sin perder la información de cada fichero."
+          ],
+          "justificacion": "La unidad de trabajo es el ciclo: un grupo de tasks, con su revisión y su commit."
+        },
+        {
+          "enunciado": "¿Qué ventaja tiene repartir las tasks de una feature grande en rebanadas verticales en lugar de por capas?",
+          "correcta": "Cada rebanada atraviesa todas las capas y se puede probar y fusionar sola, adelantando la integración.",
+          "incorrectas": [
+            "Cada rebanada toca un solo fichero, lo que elimina por completo los conflictos entre agentes que trabajan a la vez.",
+            "Se escriben menos tests, porque cada rebanada se comprueba únicamente a mano antes de pasar a la siguiente.",
+            "Se evita tener plan, porque las rebanadas se van decidiendo sobre la marcha durante la propia implementación."
+          ],
+          "justificacion": "Las capas valen para una feature pequeña; con una grande, retrasan la integración y no se pueden recortar."
+        },
+        {
+          "enunciado": "¿Qué puede fijar el plan sobre las funciones que cruzan fronteras entre tasks o agentes?",
+          "correcta": "Su firma (nombre, parámetros, retorno y errores), sin cuerpo; es una decisión de diseño y no va en la spec.",
+          "incorrectas": [
+            "Su cuerpo completo, para que el agente copie el código y no tenga que tomar ninguna decisión por su cuenta.",
+            "Solo su nombre, porque los parámetros y los errores que lanza se deciden siempre durante la implementación.",
+            "Nada, porque cualquier detalle de una función pertenece a la spec y el plan nunca debe describir interfaces."
+          ],
+          "justificacion": "Fijar las firmas de todas las funciones privadas convierte el plan en un fichero de código rígido."
+        },
+        {
+          "enunciado": "¿Qué riesgo tiene una fábrica a oscuras, en la que nadie lee el código de los agentes?",
+          "correcta": "Que el día que falla algo que el agente no sabe arreglar, nadie conoce el sistema y solo queda pedir otro intento.",
+          "incorrectas": [
+            "Que el agente deja de poder escribir código nuevo, porque sin supervisión humana pierde acceso a los ficheros.",
+            "Que los tests dejan de ejecutarse automáticamente, porque solo se lanzan cuando una persona abre la revisión.",
+            "Que el coste de los modelos sube cada semana, porque los intentos tardan más cuanto más grande es el repositorio."
+          ],
+          "justificacion": "Los fallos que quedan con un agente excelente son justo los difíciles."
+        },
+        {
+          "enunciado": "¿Qué es la deuda cognitiva?",
+          "correcta": "La comprensión del sistema que no se ha pagado: funciona, pero nadie del equipo sabría explicar por qué está hecho así.",
+          "incorrectas": [
+            "El código que funciona pero es difícil de cambiar, que se mide con la cobertura de tests y con las reglas del linter.",
+            "El tiempo que el equipo pierde esperando a que el agente termine de generar el código de cada una de las tasks.",
+            "La cantidad de documentos de SDD que están sin actualizar dentro del repositorio al terminar cada feature."
+          ],
+          "justificacion": "No aparece en ningún gate; se paga con hábitos como explicar el plan con tus palabras y rotar quién revisa."
+        },
+        {
+          "enunciado": "Tres agentes en paralelo han producido nueve PR en una mañana y la revisora aprueba las últimas sin leerlas. ¿Dónde está el problema y cómo se evita?",
+          "correcta": "Es de planificación: se frena antes de lanzar agentes, con specs aprobadas, límite de PR abiertas y PR pequeñas.",
+          "incorrectas": [
+            "Es un problema de capacidad: se resuelve incorporando más revisores o poniendo un revisor automático delante.",
+            "Es un problema de disciplina: se resuelve pidiéndole a la revisora que lea cada PR con más calma y detalle.",
+            "Es un problema del modelo: se resuelve usando uno más capaz, que genere menos PR para la misma cantidad de trabajo."
+          ],
+          "justificacion": "Los revisores automáticos suben el nivel mínimo, pero no deciden que nueve PR eran demasiadas."
+        },
+        {
+          "enunciado": "¿Cuál es el criterio del curso para decidir cuánto del código de un agente se lee?",
+          "correcta": "Según el riesgo (coste del fallo, reversibilidad y comprobaciones), con un mínimo fijo: tests tocados, ficheros ajenos y trampas.",
+          "incorrectas": [
+            "Siempre todo, porque un agente puede cambiar cualquier fichero del repositorio sin avisar a nadie del equipo.",
+            "Nunca, mientras la integración continua esté en verde y la spec de la feature sea suficientemente precisa.",
+            "Solo lo que el propio agente señale como dudoso en el resumen que escribe al terminar cada una de sus tareas."
+          ],
+          "justificacion": "Al aprender se lee todo; con la práctica, se lee según el riesgo y lo mecánico se convierte en gates."
+        }
+      ]
+    }
+  ]
+}

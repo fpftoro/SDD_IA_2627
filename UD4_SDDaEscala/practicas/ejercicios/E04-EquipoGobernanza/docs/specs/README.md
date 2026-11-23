@@ -1,0 +1,10 @@
+# Features
+
+| # | Feature | Carpeta | Estado |
+|---|---------|---------|--------|
+| A | Consultar los portátiles | A-consultar-portatiles/ | ✅ Implementada |
+| B | Reservar un carro | B-reservar-carro/ | ✅ Implementada |
+| C | Registrar el préstamo | C-registrar-prestamo/ | ✅ Implementada |
+| D | Registrar la devolución | D-registrar-devolucion/ | 🔜 Aprobada |
+| E | Anotar una incidencia | E-anotar-incidencia/ | 🔜 Aprobada |
+| F | Cancelar una reserva | F-cancelar-reserva/ | ⏳ Pendiente |

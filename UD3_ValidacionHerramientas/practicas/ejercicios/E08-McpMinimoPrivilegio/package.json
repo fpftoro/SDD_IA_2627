@@ -1,0 +1,21 @@
+{
+  "name": "prestamo-portatiles",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/servidor.js",
+    "test": "vitest run",
+    "estado": "sh herramientas/estado-features.sh",
+    "probar-mcp": "node herramientas/probar-mcp.mjs"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "supertest": "^7.1.4",
+    "vitest": "^5.0.3",
+    "zod": "^4.6.7"
+  }
+}

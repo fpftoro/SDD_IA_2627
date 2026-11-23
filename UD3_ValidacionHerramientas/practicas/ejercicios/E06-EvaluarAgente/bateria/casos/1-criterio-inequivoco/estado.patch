@@ -1,0 +1,131 @@
+diff --git a/docs/specs/A-consultar-portatiles/spec.md b/docs/specs/A-consultar-portatiles/spec.md
+index 9a3ac1c..9da0a8b 100644
+--- a/docs/specs/A-consultar-portatiles/spec.md
++++ b/docs/specs/A-consultar-portatiles/spec.md
+@@ -5,8 +5,8 @@
+ | Campo   | Valor                    |
+ |---------|--------------------------|
+ | Feature | Consultar los portátiles |
+-| Estado  | Implementada             |
+-| Versión | 1.0                      |
++| Estado  | Aprobada                 |
++| Versión | 1.1                      |
+ | Fecha   | AAAA-MM-DD               |
+ | Autor   | <nombre>                 |
+ 
+@@ -33,6 +33,9 @@ portátiles para saber si un carro me sirve antes de reservarlo.
+   deberá devolver solo los portátiles con ese estado, en el mismo orden.
+ - RF-03: Cuando se pida un portátil por su identificador, el sistema
+   deberá devolverlo con los mismos campos.
++- RF-04: Cuando se pida la lista con el parámetro carro, el sistema
++  deberá devolver solo los portátiles de ese carro, en el mismo orden. Si
++  se piden carro y estado, se aplican los dos filtros.
+ 
+ ---
+ 
+@@ -73,6 +76,16 @@ Característica: Consultar los portátiles
+     Cuando se envía una petición GET /api/portatiles/3
+     Entonces la respuesta tiene el código 200
+     Y el cuerpo es el portátil P-03 del carro A, averiado
++
++  Escenario: AC-04 Ver los portátiles de un carro
++    Cuando se envía una petición GET /api/portatiles?carro=B
++    Entonces la respuesta tiene el código 200
++    Y el cuerpo tiene P-02, P-04 y P-06, en ese orden
++
++  Escenario: AC-05 Ver los disponibles de un carro
++    Cuando se envía una petición GET /api/portatiles?carro=A&estado=disponible
++    Entonces la respuesta tiene el código 200
++    Y el cuerpo tiene P-01 y P-05, en ese orden
+ ```
+ 
+ ---
+@@ -91,13 +104,17 @@ Característica: Consultar los portátiles
+   deberá responder 200 con una lista vacía.
+ - EC-05: Si el servidor no puede leer los portátiles, entonces deberá
+   responder 500 con { error: "Error al consultar los portátiles" }.
++- EC-06: Si el carro no es A ni B (escrito exactamente así), entonces el
++  sistema deberá responder 400 con { error: "El carro debe ser A o B" }.
++- EC-07: Si el estado y el carro no son válidos a la vez, entonces el
++  sistema deberá responder con el error de EC-01.
+ 
+ ---
+ 
+ ## Fuera de alcance
+ 
+ - Dar de alta, modificar o dar de baja portátiles.
+-- Filtrar por carro u ordenar de otra forma.
++- Ordenar de otra forma.
+ - La página web: esta feature es solo la API.
+ 
+ ---
+diff --git a/docs/specs/README.md b/docs/specs/README.md
+index d142eef..8ef866b 100644
+--- a/docs/specs/README.md
++++ b/docs/specs/README.md
+@@ -2,7 +2,7 @@
+ 
+ | # | Feature | Carpeta | Estado |
+ |---|---------|---------|--------|
+-| A | Consultar los portátiles | A-consultar-portatiles/ | ✅ Implementada |
++| A | Consultar los portátiles | A-consultar-portatiles/ | 🔜 Aprobada |
+ | B | Reservar un carro | B-reservar-carro/ | ⏳ Pendiente |
+ | C | Registrar el préstamo | C-registrar-prestamo/ | ⏳ Pendiente |
+ | D | Registrar la devolución | D-registrar-devolucion/ | ⏳ Pendiente |
+diff --git a/tests/api-portatiles.test.js b/tests/api-portatiles.test.js
+index 39cc7f0..224a5f8 100644
+--- a/tests/api-portatiles.test.js
++++ b/tests/api-portatiles.test.js
+@@ -49,6 +49,52 @@ describe('GET /api/portatiles', () => {
+     });
+   });
+ 
++  test('A-RF-04, A-AC-04: filtra por carro', async () => {
++    const respuesta = await request(app).get('/api/portatiles?carro=B');
++
++    expect(respuesta.status).toBe(200);
++    expect(respuesta.body.map((portatil) => portatil.codigo)).toEqual([
++      'P-02',
++      'P-04',
++      'P-06',
++    ]);
++  });
++
++  test('A-RF-04, A-AC-05: combina el carro y el estado', async () => {
++    const respuesta = await request(app).get(
++      '/api/portatiles?carro=A&estado=disponible',
++    );
++
++    expect(respuesta.status).toBe(200);
++    expect(respuesta.body.map((portatil) => portatil.codigo)).toEqual([
++      'P-01',
++      'P-05',
++    ]);
++  });
++
++  test.each(['C', 'a', ''])(
++    'A-EC-06: responde 400 si el carro es %o',
++    async (carro) => {
++      const respuesta = await request(app).get(
++        `/api/portatiles?carro=${carro}`,
++      );
++
++      expect(respuesta.status).toBe(400);
++      expect(respuesta.body).toEqual({ error: 'El carro debe ser A o B' });
++    },
++  );
++
++  test('A-EC-07: con el estado y el carro no válidos, responde el error del estado', async () => {
++    const respuesta = await request(app).get(
++      '/api/portatiles?estado=roto&carro=Z',
++    );
++
++    expect(respuesta.status).toBe(400);
++    expect(respuesta.body).toEqual({
++      error: 'El estado debe ser disponible, prestado o averiado',
++    });
++  });
++
+   test('A-EC-04: responde 200 con una lista vacía si ninguno tiene ese estado', async () => {
+     vi.spyOn(repositorioPortatiles, 'obtenerTodos').mockReturnValue([
+       { id: 1, codigo: 'P-01', carro: 'A', estado: 'disponible' },

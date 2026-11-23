@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400" role="img" aria-labelledby="t d">
+  <title id="t">UD2 · El flujo SDD y el contexto del agente</title>
+  <desc id="d">Portada de la unidad 2 del curso Desarrollo guiado por especificaciones con IA: las cuatro fases del flujo (spec, plan, tasks y código) unidas por puntos de control humanos, con el contexto del agente (AGENTS.md, constitución y spec) por encima de todas ellas.</desc>
+  <defs>
+    <linearGradient id="fondo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d2b2f"/>
+      <stop offset="1" stop-color="#16213e"/>
+    </linearGradient>
+    <linearGradient id="acento" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2ee6a6"/>
+      <stop offset="1" stop-color="#4cc9f0"/>
+    </linearGradient>
+    <marker id="flecha" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#2ee6a6"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="400" fill="url(#fondo)"/>
+  <!-- Retícula decorativa -->
+  <g stroke="#ffffff" stroke-opacity="0.05">
+    <path d="M0 50H1200M0 100H1200M0 150H1200M0 200H1200M0 250H1200M0 300H1200M0 350H1200"/>
+    <path d="M100 0V400M200 0V400M300 0V400M400 0V400M500 0V400M600 0V400M700 0V400M800 0V400M900 0V400M1000 0V400M1100 0V400"/>
+  </g>
+
+  <!-- Texto -->
+  <g font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+    <text x="60" y="80" fill="#b9dcd8" font-size="20" letter-spacing="3">DESARROLLO GUIADO POR ESPECIFICACIONES CON IA</text>
+    <rect x="60" y="100" width="120" height="6" rx="3" fill="url(#acento)"/>
+    <text x="60" y="185" fill="#ffffff" font-size="64" font-weight="700">UD2</text>
+    <text x="60" y="240" fill="#ffffff" font-size="34" font-weight="600">El flujo SDD y el contexto</text>
+    <text x="60" y="282" fill="#ffffff" font-size="34" font-weight="600">del agente</text>
+    <text x="60" y="340" fill="#2ee6a6" font-size="22" font-weight="600">OA2 · Especificar, planificar, construir</text>
+  </g>
+
+  <!-- Contexto del agente, común a todas las fases -->
+  <rect x="605" y="96" width="548" height="32" rx="8" fill="#4cc9f0" fill-opacity="0.12" stroke="#4cc9f0" stroke-width="1.5"/>
+  <text x="879" y="117" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#b9dcd8">contexto: AGENTS.md · constitución · spec</text>
+  <g stroke="#4cc9f0" stroke-width="1.5" stroke-dasharray="4 4" stroke-opacity="0.7">
+    <path d="M660 128V150M806 128V150M952 128V150M1098 128V150"/>
+  </g>
+
+  <!-- Fases -->
+  <g font-family="Consolas, 'Courier New', monospace" font-size="13" xml:space="preserve">
+    <!-- Spec -->
+    <g transform="translate(605,150)">
+      <rect width="110" height="150" rx="10" fill="#ffffff" fill-opacity="0.08" stroke="#b9dcd8" stroke-width="2"/>
+      <rect width="110" height="28" rx="10" fill="#ffffff" fill-opacity="0.12"/>
+      <text x="55" y="19" text-anchor="middle" fill="#b9dcd8">spec.md</text>
+      <text x="14" y="56" fill="#4cc9f0">RF-01</text>
+      <text x="14" y="80" fill="#ffffff">AC-01</text>
+      <text x="14" y="104" fill="#ffffff">EC-01</text>
+      <text x="55" y="136" text-anchor="middle" fill="#2ee6a6" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="600">especificar</text>
+    </g>
+    <!-- Plan -->
+    <g transform="translate(751,150)">
+      <rect width="110" height="150" rx="10" fill="#ffffff" fill-opacity="0.08" stroke="#b9dcd8" stroke-width="2"/>
+      <rect width="110" height="28" rx="10" fill="#ffffff" fill-opacity="0.12"/>
+      <text x="55" y="19" text-anchor="middle" fill="#b9dcd8">plan.md</text>
+      <text x="14" y="56" fill="#4cc9f0">capas</text>
+      <text x="14" y="80" fill="#ffffff">ficheros</text>
+      <text x="14" y="104" fill="#ffffff">orden</text>
+      <text x="55" y="136" text-anchor="middle" fill="#2ee6a6" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="600">planificar</text>
+    </g>
+    <!-- Tasks -->
+    <g transform="translate(897,150)">
+      <rect width="110" height="150" rx="10" fill="#ffffff" fill-opacity="0.08" stroke="#b9dcd8" stroke-width="2"/>
+      <rect width="110" height="28" rx="10" fill="#ffffff" fill-opacity="0.12"/>
+      <text x="55" y="19" text-anchor="middle" fill="#b9dcd8">tasks.md</text>
+      <text x="14" y="56" fill="#2ee6a6">[x] T-01</text>
+      <text x="14" y="80" fill="#2ee6a6">[x] T-02</text>
+      <text x="14" y="104" fill="#ffffff">[ ] T-03</text>
+      <text x="55" y="136" text-anchor="middle" fill="#2ee6a6" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="600">descomponer</text>
+    </g>
+    <!-- Código -->
+    <g transform="translate(1043,150)">
+      <rect width="110" height="150" rx="10" fill="#000000" fill-opacity="0.35" stroke="#4cc9f0" stroke-width="2"/>
+      <rect width="110" height="28" rx="10" fill="#ffffff" fill-opacity="0.12"/>
+      <text x="55" y="19" text-anchor="middle" fill="#b9dcd8">src/</text>
+      <text x="14" y="56" fill="#2ee6a6">✓ tests</text>
+      <text x="14" y="80" fill="#2ee6a6">✓ revisión</text>
+      <text x="14" y="104" fill="#ffffff">✓ commit</text>
+      <text x="55" y="136" text-anchor="middle" fill="#2ee6a6" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="600">implementar</text>
+    </g>
+  </g>
+
+  <!-- Puntos de control entre fases -->
+  <g stroke="#2ee6a6" stroke-width="2.5" fill="none" marker-end="url(#flecha)">
+    <path d="M717 225H748"/>
+    <path d="M863 225H894"/>
+    <path d="M1009 225H1040"/>
+  </g>
+  <g fill="#16213e" stroke="#febc2e" stroke-width="2">
+    <circle cx="732" cy="225" r="11"/>
+    <circle cx="878" cy="225" r="11"/>
+    <circle cx="1024" cy="225" r="11"/>
+  </g>
+  <g fill="none" stroke="#febc2e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M727 225l3.5 4 6-7"/>
+    <path d="M873 225l3.5 4 6-7"/>
+    <path d="M1019 225l3.5 4 6-7"/>
+  </g>
+
+  <!-- Leyenda -->
+  <circle cx="700" cy="340" r="9" fill="#16213e" stroke="#febc2e" stroke-width="2"/>
+  <path d="M696 340l3 3.5 5-6" fill="none" stroke="#febc2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="718" y="345" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" fill="#b9dcd8">el humano aprueba cada fase antes de seguir</text>
+</svg>
