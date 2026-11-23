@@ -1,12 +1,7 @@
 # Desarrollo guiado por especificaciones con IA · Repositorio del profesor
 
-Curso propio de Formación Profesional sobre desarrollo guiado por especificaciones (SDD, *Spec-Driven Development*) con agentes de IA.
+Curso  sobre desarrollo guiado por especificaciones (SDD, *Spec-Driven Development*) con agentes de IA.
 
-Repositorio con el material del curso: un directorio por unidad didáctica (temas, prácticas y soluciones). Toda la especificación del curso, las normas de redacción y corrección y el estado del trabajo están en la [guía didáctica](./GUIA_DIDACTICA.md); el estado de cada tema, en su [Parte IV](./GUIA_DIDACTICA.md#parte-iv-estado-del-trabajo).
-
-## Diagnóstico inicial
-
-[Diagnóstico inicial](./diagnostico/README.md): prueba corta y opcional, sin agente y sin nota, para antes de la primera sesión con agente. Comprueba que el alumno sabe leer una función, ejecutar los tests, interpretar un fallo y revisar un cambio. Está fuera de las unidades para poder prescindir de ella; la solución, con cómo valorarlo, está en [`diagnostico/solucion/`](./diagnostico/solucion/README.md).
 
 ## Unidades didácticas
 
@@ -64,7 +59,4 @@ Diapositivas: [tema 1](./UD3_ValidacionHerramientas/diapositivas/pdf/01-validaci
 
 Diapositivas: [tema 1](./UD4_SDDaEscala/diapositivas/pdf/01-multiagente.pdf), [tema 2](./UD4_SDDaEscala/diapositivas/pdf/02-sdd-en-equipo.pdf), [tema 3](./UD4_SDDaEscala/diapositivas/pdf/03-casos-practicos.pdf) y [tema 4](./UD4_SDDaEscala/diapositivas/pdf/04-antipatrones.pdf).
 
-## Otros recursos
 
-- [Guía didáctica](./GUIA_DIDACTICA.md): especificación del curso, normas y estado del trabajo.
-- [Curso para empezar con SDD](./curso-introduccion/README.md): independiente de la tecnología, para empezar con SDD y agentes de IA: seis sesiones con ejercicio en clase, ejemplo común, plantilla de repositorio y tres agentes con roles (arquitecto, probador e implementador) lanzados en paralelo.
