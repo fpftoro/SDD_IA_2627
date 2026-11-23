@@ -1,0 +1,8 @@
+# Dependencias, entornos y salida de compilación: adáptalo a tu tecnología
+node_modules/
+.venv/
+__pycache__/
+target/
+build/
+dist/
+.env
