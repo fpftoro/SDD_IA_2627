@@ -21,8 +21,7 @@ Se sigue por escrito, en seis sesiones. Cada sesión es: **lectura del tema** en
 - [`plantilla/`](plantilla/README.md): repositorio de partida, sin lenguaje fijo (constitución, `AGENTS.md`, tres agentes, comandos y plantillas de documentos).
 - [`ejemplo-reservas/`](ejemplo-reservas/README.md): PRD, specs y plan del ejemplo.
 - [`evaluacion.md`](evaluacion.md): qué se recoge, lista de comprobación y defensa.
-- [`soluciones/`](soluciones/): soluciones y comentarios para el profesor.
-- [Guía didáctica](GUIA_DIDACTICA.md): marco, estado y registro de cambios.
+
 
 ## Qué necesitas
 
